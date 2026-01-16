@@ -17,7 +17,7 @@ public class McMMO implements Listener {
         if(!canFishList.contains(e.getPlayer())) canFishList.add(e.getPlayer());
     }
 
-    public static boolean McMcMmoCanFish(Player player) {
+    public static boolean McMMOCanFish(Player player) {
         if(!PluginHandler.hasMcMMO) return true;
 
         if(canFishList.contains(player)){
