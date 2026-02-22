@@ -222,7 +222,7 @@ public class FishBag {
             for(int i = 0; i < freeSlots; i++){
                 FishObject fish = filteredFishList.get(i);
                 RemoveFish(fish);
-                player.getInventory().addItem(fish.CreateItemStack());
+                player.getInventory().addItem(fish.getItemStack());
                 player.playSound(player.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
             }
             UpdateBagItem();

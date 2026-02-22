@@ -1,8 +1,8 @@
 package com.kunfury.blepfishing.listeners;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.events.FishCaughtEvent;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -16,7 +16,6 @@ import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
 import com.kunfury.blepfishing.plugins.McMMO;
-import com.sk89q.worldguard.WorldGuard;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -24,7 +23,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -32,11 +30,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class FishingListener implements Listener {
 
     private static final List<Material> fishMats = Arrays.asList(Material.SALMON, Material.COD, Material.TROPICAL_FISH);
-
 
     @EventHandler
     public void onFish(PlayerFishEvent e) {
@@ -45,8 +43,9 @@ public class FishingListener implements Listener {
            return;
        }
 
+       //Delay 1 Tick to ensure McMMO has processed
         Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
-            if(McMMO.McMcMmoCanFish(e.getPlayer()))
+            if(McMMO.McMMOCanFish(e.getPlayer()))
                 FishCaught(e);
         } , 1);
     }
@@ -105,10 +104,7 @@ public class FishingListener implements Listener {
             fishBag.AddFish(caughtFish);
             fishBag.UpdateBagItem();
         }else
-            item.setItemStack(caughtFish.CreateItemStack());
-
-
-
+            item.setItemStack(caughtFish.getItemStack());
 
         BlepFishing.stats_FishCaught++;
         DisplayFishInfo.ShowFish(caughtFish, player);
@@ -124,7 +120,9 @@ public class FishingListener implements Listener {
             Utilities.GiveItem(player, journal.GetItemStack(), false);
         }
 
-
+        // Call Custom Event
+        FishCaughtEvent event = new FishCaughtEvent(caughtFish, player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
     private FishType GetCaughtFishType(Location hookLoc, boolean allBlue) {
@@ -152,6 +150,19 @@ public class FishingListener implements Listener {
         {
             if(type.canCatch(isRaining, height, isNight, fishingAreas))
                 availFish.add(type);
+        }
+
+        if (availFish.isEmpty() && BlepFishing.instance.DebugMode) { //Ty Bug
+            BlepFishing.instance.getLogger().info("----------------------------------------");
+            BlepFishing.instance.getLogger().info("DEBUG: No fish found for catch at " + hookLoc.toVector());
+            BlepFishing.instance.getLogger().info("  Conditions:");
+            BlepFishing.instance.getLogger().info("    Biome: " + hookLoc.getBlock().getBiome());
+            BlepFishing.instance.getLogger().info("    Height: " + height);
+            BlepFishing.instance.getLogger().info("    Raining: " + isRaining);
+            BlepFishing.instance.getLogger().info("    Is Night: " + isNight);
+            BlepFishing.instance.getLogger().info("    Fishing Areas: " + fishingAreas.stream().map(a -> a.Name).collect(Collectors.joining(", ")));
+            BlepFishing.instance.getLogger().info("  Checked " + FishType.GetAll().size() + " total fish types.");
+            BlepFishing.instance.getLogger().info("----------------------------------------");
         }
 
         return GetRandomFishType(availFish, hookLoc);

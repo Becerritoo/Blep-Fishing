@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.objects;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.events.TournamentCompleteEvent;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -12,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -226,9 +226,14 @@ public class TournamentObject {
         active = false;
         Database.Tournaments.Update(Id, "active", false);
 
-       DisableBossBar();
+        DisableBossBar();
+
+        if(getType() == null) return;
 
         List<FishObject> winningFish = getWinningFish();
+
+        TournamentCompleteEvent event = new TournamentCompleteEvent(this, winningFish);
+        Bukkit.getServer().getPluginManager().callEvent(event);
 
         if(winningFish.isEmpty()){
             var fishTypes = getType().getFishTypes();
@@ -258,15 +263,15 @@ public class TournamentObject {
             place++;
         }
 
-        //Creates announcement banner for all players
-        String banner = Formatting.GetLanguageString("Tournament.leaderboard")
-                .replace("{tournament}", getType().Name);
-        Utilities.Announce("_____________________________________________________");
-        Utilities.Announce(banner);
-        for(var c : textComponents){
-            Utilities.Announce(c);
-        }
-        Utilities.Announce("_____________________________________________________");
+            //Creates announcement banner for all players
+            String banner = Formatting.GetLanguageString("Tournament.leaderboard")
+                    .replace("{tournament}", getType().Name);
+            Utilities.Announce("_____________________________________________________");
+            Utilities.Announce(banner);
+            for(var c : textComponents){
+                Utilities.Announce(c);
+            }
+            Utilities.Announce("_____________________________________________________");
     }
 
     private LocalDateTime endTime;

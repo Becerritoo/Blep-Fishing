@@ -2,12 +2,11 @@ package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.FishObject;
-import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
+import com.kunfury.blepfishing.plugins.PluginHandler;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -130,6 +129,9 @@ public class Utilities {
     }
 
     public static void SellAllFish(Player player) {
+        if(!BlepFishing.hasEconomy())
+            return;
+
         List<FishObject> fishList = new ArrayList<>();
 
         for(var i : player.getInventory().getContents()){
@@ -157,6 +159,9 @@ public class Utilities {
     }
 
     public static void SellFish(Player player) {
+        if(!BlepFishing.hasEconomy())
+            return;
+
         ItemStack sellItem = player.getInventory().getItemInMainHand();
 
         FishBag fishBag = FishBag.GetBag(sellItem);
@@ -186,6 +191,9 @@ public class Utilities {
     }
 
     private static void SellFishList(Player player, List<FishObject> fishList){
+        if(!BlepFishing.hasEconomy())
+            return;
+
         double totalValue = 0;
 
         for(var fish : fishList)
@@ -202,6 +210,9 @@ public class Utilities {
     }
 
     public static void SellFishBag(Player player, FishBag fishBag){
+        if(!BlepFishing.hasEconomy())
+            return;
+
         if(!fishBag.ConfirmSell){
             fishBag.ConfirmSell = true;
 

@@ -1,0 +1,64 @@
+# Blep Fishing GUI Configuration
+#
+# PlayerPanel:
+#   Title: The title of the GUI.
+#   FillerSlots: A list of slots to fill with the background item.
+#     Format: "0-8, 17, 18-26" (ranges and single slots are supported).
+#     Leave empty or remove the line to not fill any slots.
+#   BackgroundItem:
+#     Material: The material for the filler item.
+#     CustomModelData: (Optional) for custom textures.
+#
+#   Buttons:
+#     You can configure standard and custom buttons here.
+#     For standard buttons (Admin, Tournament, etc.), you can override the default item by adding
+#     an 'Item' section, just like with custom buttons.
+#
+#     Standard Button Types:
+#       - Admin, Tournament, Fish, SellAll, ClaimRewards
+#
+#     Custom Buttons:
+#       Type: Custom
+#       Item, Commands, Sound sections as needed.
+#
+PlayerPanel:
+  Title: "&1Blep Fishing"
+  FillerSlots: "0-3, 5-8, 9-10, 12, 14, 16-17, 18-21, 23-26"
+  BackgroundItem:
+    Material: "LIGHT_GRAY_STAINED_GLASS_PANE"
+    CustomModelData: 0
+  Buttons:
+    Admin:
+      Slot: 4
+      Type: Admin
+      # You can optionally override the item like this:
+      # Item:
+      #   Material: NETHERITE_SWORD
+      #   CustomModelData: 123
+    Tournament:
+      Slot: 11
+      Type: Tournament
+    Fish:
+      Slot: 13
+      Type: Fish
+    SellAll:
+      Slot: 15
+      Type: SellAll
+    ClaimRewards:
+      Slot: 22
+      Type: ClaimRewards
+    # Example Custom Button
+    # Discord:
+    #   Slot: 0
+    #   Type: Custom
+    #   Item:
+    #     Material: PAPER
+    #     Name: "&9Discord"
+    #     Lore:
+    #       - "&7Join our Discord!"
+    #   Commands:
+    #     - "tellraw {player} {\"text\":\"Click to join!\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://discord.gg/example\"}}"
+    #   Sound:
+    #     Name: ENTITY_EXPERIENCE_ORB_PICKUP
+    #     Volume: 1.0
+    #     Pitch: 1.0

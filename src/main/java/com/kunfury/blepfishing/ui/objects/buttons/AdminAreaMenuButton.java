@@ -4,7 +4,9 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +49,17 @@ public abstract class AdminAreaMenuButton extends MenuButton {
     }
 
     protected Biome getBiome(){
+
+        var biomeStr = ItemHandler.getTagString(ClickedItem, biomeKey);
+
+        for(var biome : Registry.BIOME){
+            Bukkit.broadcastMessage("Biome: " + Registry.BIOME.match(biomeStr));
+
+        }
+        Bukkit.broadcastMessage("Checking Biome: " + Registry.BIOME.match(biomeStr));
+
+
+        //Registry.BIOME.get(ItemHandler.getTagString(ClickedItem, biomeKey))
         return Biome.valueOf(ItemHandler.getTagString(ClickedItem, biomeKey));
     }
 }

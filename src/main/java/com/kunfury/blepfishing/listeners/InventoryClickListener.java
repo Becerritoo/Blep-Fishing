@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.helpers.ItemHandler;
+import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -39,13 +40,16 @@ public class InventoryClickListener implements Listener {
         if (clickedItem == null)
             return;
 
-        if (ItemHandler.hasTag(clickedItem, ItemHandler.ButtonIdKey)) {
-            String buttonId = ItemHandler.getTagString(clickedItem, ItemHandler.ButtonIdKey);
-            e.setCancelled(true);
-            for (MenuButton menuButton : MenuHandler.MenuButtons.values()) {
-                if (menuButton.getId().equals(buttonId)) {
+        // Check if the inventory is a Blep Fishing GUI
+        if (Panel.Panels.containsKey(player.getUniqueId()) && Panel.Panels.get(player.getUniqueId()).GetInventory().equals(inv)) {
+            e.setCancelled(true); // Cancel all clicks in the GUI by default
+
+            if (ItemHandler.hasTag(clickedItem, ItemHandler.ButtonIdKey)) {
+                String buttonId = ItemHandler.getTagString(clickedItem, ItemHandler.ButtonIdKey);
+
+                MenuButton menuButton = MenuHandler.MenuButtons.get(buttonId);
+                if (menuButton != null) {
                     menuButton.perform(e);
-                    break;
                 }
             }
         }

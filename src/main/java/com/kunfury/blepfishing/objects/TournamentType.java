@@ -2,10 +2,10 @@ package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.events.TournamentStartEvent;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.ItemHandler;
-import com.kunfury.blepfishing.plugins.McMMO;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
@@ -87,6 +87,11 @@ public class TournamentType {
 
         Utilities.Announce(Formatting.GetFormattedMessage("Tournament.start")
                 .replace("{tournament}", Name));
+
+        // Call Custom Event
+        TournamentStartEvent event = new TournamentStartEvent(tournament);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
         return tournament;
     }
 

@@ -119,7 +119,11 @@ public class FishObject {
         Database.Fish.Update(Id, "fishBagId", bagId);
     }
 
-    public ItemStack CreateItemStack(){
+
+    /**
+     * @return Itemstack tied to the Fish Object
+     */
+    public ItemStack getItemStack(){
         ItemStack fishItem = new ItemStack(Material.SALMON);
 
         ItemMeta itemMeta = fishItem.getItemMeta();
@@ -210,7 +214,6 @@ public class FishObject {
 
         return new Text(Formatting.formatColor(content));
     }
-
 
     ///
     //STATIC METHODS

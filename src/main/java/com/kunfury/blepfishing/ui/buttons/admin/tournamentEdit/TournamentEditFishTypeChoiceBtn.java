@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditFishTypesPanel;
 import com.kunfury.blepfishing.helpers.ItemHandler;
@@ -15,6 +16,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TournamentEditFishTypeChoiceBtn extends MenuButton {
 
@@ -54,6 +56,19 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
             lore.add(ChatColor.RED + "Disabled");
 
         lore.add("");
+
+        // Add Areas to Lore
+        List<String> areaNames = new ArrayList<>();
+        for(String areaId : fishType.AreaIds){
+            FishingArea area = FishingArea.FromId(areaId);
+            if(area != null){
+                areaNames.add(area.Name);
+            }
+        }
+
+        if(!areaNames.isEmpty()){
+            lore.add(ChatColor.YELLOW + "Areas: " + ChatColor.WHITE + String.join(", ", areaNames));
+        }
 
         m.setLore(lore);
 

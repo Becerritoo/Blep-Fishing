@@ -11,6 +11,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -40,12 +41,25 @@ public abstract class MenuButton {
     protected ItemStack ClickedItem;
     protected Player player;
     private PersistentDataContainer dataContainer;
+    private List<String> commands;
+    private String uniqueId;
+
     public String getId(){
+        if (uniqueId != null) return uniqueId;
         return getClass().getName();
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+        MenuHandler.SetupButton(this);
     }
 
     public MenuButton(){
         MenuHandler.SetupButton(this);
+    }
+
+    public void setCommands(List<String> commands) {
+        this.commands = commands;
     }
 
     protected void setButtonTitle(ItemMeta m, String title){
@@ -57,6 +71,23 @@ public abstract class MenuButton {
         ClickedItem = e.getCurrentItem();
         player = (Player) e.getWhoClicked();
         ClickType clickType = e.getClick();
+
+        if (commands != null && !commands.isEmpty()) {
+            for (String command : commands) {
+                String cmd = command.replace("{player}", player.getName()).replace("%player_name%", player.getName());
+                if (cmd.equalsIgnoreCase("[close]")) {
+                    player.closeInventory();
+                } else if (cmd.toLowerCase().startsWith("[player] ")) {
+                    player.performCommand(cmd.substring(9));
+                } else if (cmd.toLowerCase().startsWith("[console] ")) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.substring(10));
+                } else if (cmd.toLowerCase().startsWith("[message] ")) {
+                    player.sendMessage(Formatting.formatColor(cmd.substring(10)));
+                } else {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
+                }
+            }
+        }
 
         if(clickType.isLeftClick()){
             if(clickType.isShiftClick()){
@@ -200,11 +231,11 @@ public abstract class MenuButton {
 
     private ConversationFactory getFactory(Prompt prompt){
         return new ConversationFactory(BlepFishing.getPlugin())
-            .withFirstPrompt(prompt)
-            .withModality(true)
-            .withTimeout(60)
-            .withEscapeSequence("cancel")
-            .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+                .withFirstPrompt(prompt)
+                .withModality(true)
+                .withTimeout(60)
+                .withEscapeSequence("cancel")
+                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
     protected Conversation getConversation(Player player, Prompt prompt){

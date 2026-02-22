@@ -105,7 +105,7 @@ public class FishType {
     public void Spawn(Player player){
         FishObject fish = GenerateFish(Rarity.GetRandom(), null, null, false);
 
-        Utilities.GiveItem(player, fish.CreateItemStack(), true);
+        Utilities.GiveItem(player, fish.getItemStack(), true);
     }
 
     public List<String> getAreaNames(){

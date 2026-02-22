@@ -141,6 +141,9 @@ UI:
           total: "&9Total Caught: &f{amount}"
           noneCaught: "&cNot Caught"
           area: "&9Found In: {areas}"
+        Sell All:
+          name: "&bSell All Fish -BLEP"
+          lore: "&9Sells all fish in your inventory"
       Tournaments:
         name: "&9{name} - &f{duration}"
         view: "&bLeft-Click to &e&oView"

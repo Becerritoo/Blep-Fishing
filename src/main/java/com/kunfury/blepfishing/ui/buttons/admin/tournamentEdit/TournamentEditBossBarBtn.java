@@ -3,7 +3,6 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.ItemHandler;
-import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
@@ -15,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class TournamentEditBossBarBtn extends AdminTournamentMenuButton {

@@ -1,6 +1,5 @@
 package com.kunfury.blepfishing.plugins;
 
-import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.plugins.placeholders.*;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

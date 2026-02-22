@@ -4,7 +4,6 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
-import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 
 import java.sql.*;

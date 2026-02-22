@@ -1,8 +1,10 @@
 package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
+import com.kunfury.blepfishing.ui.MenuHandler;
 import jdk.jshell.execution.Util;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -23,6 +25,7 @@ public class ConfigHandler {
     public RarityConfig rarityConfig;
     public AreaConfig areaConfig;
     public TreasureConfig treasureConfig;
+    public GuiConfig guiConfig;
 
 
     public HashMap<String, YamlConfiguration> Translations;
@@ -38,6 +41,9 @@ public class ConfigHandler {
 
         UpdateMessages();
         LoadTranslations();
+
+        guiConfig = new GuiConfig();
+
     }
 
     public List<String> ErrorMessages = new ArrayList<>();
@@ -147,7 +153,9 @@ public class ConfigHandler {
         rarityConfig = new RarityConfig();
         areaConfig = new AreaConfig();
         treasureConfig = new TreasureConfig();
+        guiConfig = new GuiConfig();
 
+        MenuHandler.reload();
         UpdateMessages();
         LoadTranslations();
     }

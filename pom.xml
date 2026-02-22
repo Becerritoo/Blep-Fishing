@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.kunfury</groupId>
-  <artifactId>blepFishing</artifactId>
+  <artifactId>blep-fishing</artifactId>
   <version>2.6</version>
   <packaging>jar</packaging>
   <name>BlepFishing</name>
@@ -23,8 +23,8 @@
   <distributionManagement>
     <repository>
       <id>github</id>
-      <name>Public Releases</name>
-      <url>https://maven.pkg.github.com/Kunfury-blep/Blep-Fishing/</url>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/Kunfury-blep/Blep-Fishing</url>
     </repository>
   </distributionManagement>
 
@@ -40,7 +40,7 @@
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
-    <!-- This adds the Spigot Maven repository to the build -->
+    <!-- Repo for McMMO-->
     <repository>
       <id>neetgames-repo</id>
       <url>https://nexus.neetgames.com/repository/maven-releases/</url>
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.21.7-R0.1-SNAPSHOT</version>
+      <version>1.21.10-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
       <dependency>
@@ -102,8 +102,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>16</source>
-          <target>16</target>
+          <source>21</source>
+          <target>21</target>
         </configuration>
       </plugin>
       <plugin>

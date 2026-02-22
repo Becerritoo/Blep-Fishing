@@ -32,7 +32,11 @@ public class FishingArea {
         Biomes = new ArrayList<>();
 
         biomes.forEach(b -> {
-            Biomes.add(b.toUpperCase());
+            String key = b.toLowerCase();
+            if (!key.contains(":")) {
+                key = "minecraft:" + key;
+            }
+            Biomes.add(key);
         });
     }
 
@@ -70,7 +74,7 @@ public class FishingArea {
             }
         }
 
-        String biome = loc.getBlock().getBiome().toString();
+        String biome = loc.getBlock().getBiome().getKey().toString();
 
         for(var entrySet : ActiveAreas.entrySet()){
             var value = entrySet.getValue();
