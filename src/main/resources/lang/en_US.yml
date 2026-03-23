@@ -1,0 +1,374 @@
+Fish:
+  length: '&9Length: {size}in.'
+  caught: '&8Caught By: {player} on {date}'
+  Scoreboard:
+    size: '&b{size}"'
+  announce: '{player} &fjust caught a {rarity} {fish}&f!'
+  value: '&9Value: ${value}'
+  chatInfo: You just caught a {rarity} {fish}&f!
+  actionBar: '&fCaught a {rarity} {fish}&f : {size}"'
+  hoverTitle: '{rarity} {fish}'
+Treasure:
+  announce: '{player} &fjust fished up a {treasure}&f!'
+  Casket:
+    use: '&bRight-Click to &e&oOpen'
+    result: You found {item} &finside the {casket}&f!
+    announceReward: '{player} &fjust found {item} &finside the {casket}&f!'
+  Compass Piece:
+    name: '&bCompass Piece'
+    nameMulti: '&bCompass Pieces &e{amount}&b/&e{total}&b'
+  Compass:
+    name: '&3Compass to the All Blue'
+    use: '&bRight-Click to &e&oFocus'
+    lore: It really does exist...
+    error: '&cThis world is not suitable'
+    announce: '&7The wind picks up around you, carrying sounds of &b&oThe Sea &7from the {direction}'
+    announceNether: '&7Though surrounded by hellfire itself, you faintly hear &b&oThe Sea'
+    announceEnd: '&7From the vast nothingness that surrounds you, &b&oThe Sea'
+Equipment:
+  Fish Bag:
+    autoPickup: '&bLeft-Click While Holding to Toggle &e&oAuto-Pickup'
+    pickupEnabled: Auto Pickup Enabled.
+    pickupDisabled: Auto Pickup Disabled.
+    depositAll: '&bShift Left-Click While Holding to Toggle &e&oDeposit All'
+    openBag: '&bRight-Click While Holding to &e&oOpen'
+    openPanel: '&bShift Right-Click While Holding to &e&oOpen Player Panel'
+    descSmall: Holds a small amount of fish
+    noSpace: There is no more space in that bag.
+    noFish: No fish found in inventory.
+    addFish: Added {amount} to the bag.
+    tier1Title: '&fSmall Bag o'' Fish'
+    tier2Title: '&eMedium Bag o'' Fish'
+    tier3Title: '&6Large Bag o'' Fish'
+    tier4Title: '&bGiant Bag o'' Fish'
+    tier5Title: '&3Bottomless Bag'
+    upgrade: '&fInsert &6{item}&f to Upgrade'
+  Fishing Rod:
+    caughtAmount: '&bFish Caught: &f{amount}'
+  Fishing Journal:
+    name: '&bFishing Journal'
+    read: '&bRight-Click to &o&eRead'
+    panel: '&bShift Right-Click to &o&eOpen Panel'
+    Content:
+      Player:
+        totalCaught: Total Fish Caught {amount}
+      Compass:
+        title: ' -- Compass Pieces --'
+        amount: '{found}/{total} Found'
+        hint: '&oHover Piece For Hint'
+      Fish:
+        totalCaught: Total Caught {amount}
+        largestCaught: 'Largest: {size}"'
+        smallestCaught: 'Smallest: {size}"'
+  Tournament Horn:
+    name: '&3{tournament} Horn'
+    duration: '&9Duration: &f{time}'
+    tournamentFish: '&9Fish: {fish}'
+Tournament:
+  alreadyRunning: '{tournament} is already running.'
+  noneCaught: No {fish} were caught before the tournament ended, no rewards have been given.
+  leaderboard: '&l   {tournament}&l Leaderboard - Hover For Info   '
+  reward: You won &6{item}&f in {tournament}&f!
+  rewardCurrency: You won $&2{amount}&f in {tournament}&f!
+  start: The {tournament}&f Fishing Contest has begun!
+  allFish: '&fAll Fish'
+  noFish: '&cNo Fish Defined'
+  newBest: '{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!'
+  Grading:
+    Longest:
+      title: Longest
+      desc: The player who catches the longest fish will win, regardless of Rarity.
+    Shortest:
+      title: Shortest
+      desc: The player who catches the shortest fish will win, regardless of Rarity.
+    ScoreHigh:
+      title: Best
+      desc: The player who catches the best fish will win. Determined by Fish Length and Rarity Weight
+    ScoreLow:
+      title: Worst
+      desc: The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight
+System:
+  prefix: '&b[BF]&f '
+  deleted: '&eSuccessfully Deleted &c{item}&e.'
+  noCommand: '&cCommand Not Found'
+  noPermission: '&cYou don''t have permission for that'
+  noPlayer: '&cPlayer Not Found'
+  reload: Reload Complete
+  noFish: '&cNo Fish Found'
+  north: North
+  south: South
+  east: East
+  west: West
+Economy:
+  soldFish: '&bSold &f{fish}&b for &f$&2{value}&f.'
+  soldAllFish: '&bSold &f{amount}&b fish for &f$&2{value}&f.'
+  sellBagHint: Sneak Right-Click to sell all fish in bag.
+  sellBagConfirm: Sell All Fish in Bag? Repeat Action to Confirm.
+UI:
+  Player:
+    Panels:
+      base: Player Panel
+      tournaments: Fishing Tournaments
+      fishBag: 'Fish Bag: {amount}/{max}'
+      tournamentDetail: Tournament - {amount} Caught
+      fish: Caught Fish
+    Buttons:
+      panel: '&bPlayer Panel'
+      Fish Bag:
+        stored: '&9Amount Stored: &f{amount}'
+        largest: '&9Largest Fish: &f{size}"'
+        withdrawSmall: '&bLeft-Click to Withdraw &e&oSmallest'
+        withdrawLarge: '&bRight-Click to Withdraw &e&oLargest'
+        shift: '&c&oHold Shift to Withdraw &eAll'
+      Base:
+        Claim Rewards:
+          name: '&bClaim Rewards'
+          lore: '&9Total Rewards: &f{amount}'
+          error: Unable to give &b{amount}&f items.
+        Tournaments:
+          name: '&bTournaments : {amount} Running'
+          tournament: '&9{name} - &f{duration}'
+          empty: '&cNo Active Tournaments'
+        Fish:
+          name: '&bFish'
+          total: '&9Total Caught: &f{amount}'
+          noneCaught: '&cNot Caught'
+          area: '&9Found In: {areas}'
+        Sell All:
+          name: '&bSell All Fish -BLEP'
+          lore: '&9Sells all fish in your inventory'
+      Tournaments:
+        name: '&9{name} - &f{duration}'
+        view: '&bLeft-Click to &e&oView'
+        bossBar: '&bShift Left-Click to &e&oToggle Bar'
+        cancel: '&bShift Right-Click &bto &c&oCancel Tournament'
+        cancelConfirm: '&4&lReally Cancel Tournament?'
+  System:
+    Buttons:
+      goBack: '&cGo Back'
+      pageNext: '&bNext Page'
+      pageBack: '&bPrevious Page'
+      info: '&bInformation'
+      edit: '&bLeft-Click to &e&oEdit'
+      delete: '&bShift Right-Click &bto &c&oDelete'
+      deleteConfirm: '&4&lReally Delete?'
+      enabled: '&aEnabled'
+      disabled: '&cDisabled'
+      toggle: '&bShift Left-Click to &c&oToggle'
+    Conversation:
+      cancelButton: '[CANCEL]'
+      cancelHover: Click to cancel conversation
+  Admin:
+    Panels:
+      base: Admin Panel
+      translations: Translations
+      general: General Settings
+      Treasure:
+        base: Treasure Admin Panel
+        caskets: Caskets Admin Panel
+        allBlue: All Blue Admin Panel
+        editCasket: Edit {casket}
+    Buttons:
+      panel: '&bAdmin Panel'
+      Base:
+        Translations:
+          name: '&bTranslations'
+          lore: '&f{amount} Available'
+        treasure: '&bEdit Treasure'
+        areas: '&bEdit Areas'
+        fish: '&bEdit Fish'
+        rarities: '&bEdit Rarities'
+        general: '&bGeneral Settings'
+        tournaments: '&bEdit Tournaments'
+      Translations:
+        select: '&bLeft-Click to &e&oSelect'
+        reload: '&bLeft-Click to &e&l&oLoad Defaults'
+        click: '&fSuccessfully Loaded &b{language}'
+        author: '&9Author: &f{name}'
+        Info:
+          name: '&bInfo'
+          lore: '&fWant to contribute to the Translations available? &e&oClick for Discord'
+          click: '&bClick For Discord'
+      Treasure:
+        Base:
+          editRewards: '&bEdit Rewards'
+          rewards: '&a{amount}x Rewards'
+          noRewards: '&cNo Rewards Set'
+          unfinishedRewards: '&e{amount}x Unfinished Rewards'
+        Announce:
+          name: '&bAnnounce Treasure Catch'
+          lore: Announces Catch To World
+        Weight:
+          name: '&bWeight'
+          compassName: '&bCompass Piece Weight'
+          lore: Higher Weight, Easier to Catch
+          prompt: 'What should the Treasure Weight be? Current: {amount}'
+        Name:
+          name: '&bName'
+          lore: '&9{name}'
+          prompt: 'What should the Name of the Treasure be? Current: {name}'
+        Rewards:
+          create: '&bCreate New Reward'
+          Announce:
+            name: '&bAnnounce Reward'
+            lore: Announce Reward To World
+          Drop Chance:
+            name: '&bDrop Chance'
+            lore: The percent chance the item will drop from casket
+            current: '&9Current: &f{amount}&9%'
+            prompt: 'What should the Item Drop Chance be? Current: {amount}'
+        caskets: '&bEdit Caskets'
+        allBlue: '&bEdit All Blue'
+        createNew: '&bCreate New Treasure Casket'
+      General:
+        showScoreboard: '&bShow Catch in Scoreboard'
+        showChat: '&bShow Catch in Chat'
+        showActionbar: '&bShow Catch in ActionBar'
+        enableFishBags: '&bEnable Fish Bags'
+        showFishingRodStats: '&bShow Stats on Fishing Rod'
+      Tournament:
+        noTimes: '&cNo Start Times'
+PAPI:
+  Tournament:
+    notFound: Tournament Not Found
+    default: '{name}&f - {fish} - {time}'
+    notRunning: Not Running
+    noneCaught: None Caught
+    name: '&3{tournament}'
+    time: '&f{time}'
+    fish_type: '&f{fish}'
+    progress: '&f{progress}'
+    winner: '&f{player}'
+    rank: '&f{player}'
+  Fish:
+    notFound: Fish Not Found
+    player: '&f{player}'
+    name: '&f{type}'
+    size: '&f{size}'
+    cost: '&f{cost}'
+    rarity: '&f{rarity}'
+    date: '&f{date}'
+    score: '&f{score}'
+    default: '&f{player} | &f{rarity} | &f{type} | &f{size}'
+Author: Kunfury
+Admin:
+  Spawn:
+    noName: '&cYou must provide a name.'
+    validEquipment: '&cValid equipment: bag, journal, rod, horn.'
+    validTreasure: '&cValid treasure: casket, compass_piece, compass.'
+    invalidTreasureType: '&cInvalid treasure type.'
+Language: en_US
+Messages:
+  Errors:
+    bagInvalidCraft: '&cYou cannot use your bag for that.'
+    bagSellSneakRequired: '&cYou must be sneaking to sell from Fish Bag.'
+    bagNotInMainHand: '&cBag not held in hand.'
+    noValidConversation: '&cNo valid conversation found.'
+    playerOnlyConversationFactory: '&cThis conversation is player-only.'
+    playerOnlyPanel: '&cUI panels can only be opened by players.'
+Literals:
+  has_compass_piece: Has Compass Piece
+  has_compass: 'Has Compass: '
+  hint: 'Hint: '
+  biomes: '- Biomes -'
+  left_click_to_edit: Left-Click to Edit
+  really_delete: Really Delete?
+  create_new_area: Create New Area
+  prefix: 'Prefix: '
+  value_mod: Value Mod
+  create_new_rarity: Create New Rarity
+  rarity_id: Rarity Id
+  tournament_admin_panel: Tournament Admin Panel
+  times_of: 'Times of '
+  edit: 'Edit '
+  announce_catch: Announce Catch
+  biomes_2: ' Biomes'
+  areas_admin_panel: Areas Admin Panel
+  length_min: Length Min
+  requires_rain: Requires Rain
+  height_min: Height Min
+  rarity_admin_panel: Rarity Admin Panel
+  fish_admin_panel: Fish Admin Panel
+  create_new_fish: Create New Fish
+  base_price: Base Price
+  height_max: Height Max
+  length_max: Length Max
+  model_data: Model Data
+  no_lore_set: No Lore Set
+  id: 'ID: '
+  model_data_2: 'Model Data: '
+  tournament_bossbar: Tournament BossBar
+  shows_a_bossbar_at_the_top_of_the_screen: Shows a BossBar at the top of the screen
+  players_can_toggle_in_their_tournament_panel: Players can toggle in their tournament panel
+  create_placement: Create Placement
+  fish_types: Fish Types
+  cash_rewards: ' Cash Rewards'
+  current: 'Current: '
+  tournament_id: Tournament ID
+  villager_horn_trade: Villager Horn Trade
+  if_enabled_fishermen_villagers_sell_tournament_horns: If enabled, fishermen villagers sell Tournament Horns
+  when_used_these_start_a_fishing_tournament: When used, these start a fishing tournament
+  left_click_to: 'Left-Click to '
+  n_a: n/a
+  no_rewards_set: No Rewards Set
+  areas: 'Areas: '
+  required_villager_horn_level: Required Villager Horn Level
+  the_profession_level_a_villager_needs: The Profession Level a villager needs
+  to_sell_a_horn_for_this_tournament: to sell a Horn for this Tournament
+  click_to_toggle_all_fish_from_this_area: Click to toggle all fish from this area.
+  start_times: Start Times
+  left_click: 'Left-Click  '
+  to_create: To Create
+  to_edit: To Edit
+  right_click: 'Right-Click '
+  to_delete: To Delete
+  create_new_tournament: Create New Tournament
+  save_rewards: Save Rewards
+  saves_all_item_in_this_inventory_as_rewards: Saves all item in this inventory as rewards
+  null_casket_name: Null Casket Name
+  drop_chance: Drop Chance
+  place_reward_item_in_free_slot: Place reward item in free slot
+  player_panel: Player Panel
+  drop_chance_2: 'Drop Chance: '
+  announce: 'Announce: '
+  casket_id: Casket ID
+  what_should_the_area_name_be_current: 'What should the Area Name be? Current: '
+  what_should_the_area_id_be_current: 'What should the Area ID be? Current: '
+  what_should_the_compass_hint_be_current: 'What should the compass hint be? Current: '
+  what_should_the_new_fishing_area_be_named: What Should The New Fishing Area Be Named?
+  what_should_the_rarity_name_be_current: 'What should the Rarity name be? Current: '
+  what_should_the_rarity_weight_be_current: 'What should the Rarity weight be? Current: '
+  what_should_the_value_mod_be_current: 'What should the Value Mod be? Current: '
+  what_should_the_rarity_id_be_current: 'What should the Rarity ID be? Current: '
+  what_should_the_rarity_prefix_be_current: 'What should the Rarity prefix be? Current: '
+  what_should_the_new_rarity_be_named: What Should The New Rarity Be Named?
+  what_should_the_fish_name_be_current: 'What should the fish name be? Current: '
+  what_should_the_fish_id_be_current: 'What should the fish ID be? Current: '
+  what_should_the_minimum_length_of_a: 'What should the minimum length of a '
+  what_should_the_minimum_height_of_a: 'What should the minimum height of a '
+  what_should_the_maximum_length_of_a: 'What should the maximum length of a '
+  what_should_the_maximum_height_of_a: 'What should the maximum height of a '
+  what_should_the_model_data_of_a: 'What should the model data of a '
+  what_should_the_fish_lore_be_current: 'What should the fish lore be? Current: '
+  what_should_the_baseline_price_of_a: 'What should the baseline price of a '
+  what_should_the_new_fish_be_named: What Should The New Fish Be Named?
+  what_should_the_tournament_name_be_current: 'What should the tournament name be? Current: '
+  what_should_the_tournament_id_be_current: 'What should the Tournament ID be? Current: '
+  how_long_should_the: 'How long should the '
+  tournament_last_in_hours_current: ' tournament last, in hours? Current: '
+  what_level: 'What level '
+  profession_does_a_fisherman_villager_need_to_be_to_sell_a_horn_for: ' profession does a Fisherman Villager need to be to sell a horn for '
+  what_should_the_reward_for: 'What should the reward for #'
+  in_the_tournament_be_current: ' in the tournament be? Current: '
+  what_should_the_new_time_be: What should the new time be?
+  format: 'Format: '
+  what_should_the_new_tournament_be_named: What Should The New Tournament Be Named?
+  what_should_the_casket_id_be_current: 'What should the Casket ID be? Current: '
+  what_should_the_new_casket_be_named: What Should The New Casket Be Named?
+  no_valid_conversation_found: No Valid Conversation Found
+  ui_panels_can_only_be_opened_by_players: UI Panels can only be opened by players
+  this_conversation_factory_is_player_only: This Conversation Factory is Player Only
+  click_to_cancel_conversation: Click to Cancel Conversation
+  you_cannot_use_your_bag_for_that: You cannot use your bag for that.
+  you_must_be_sneaking_to_sell_from_fish_bag: You must be sneaking to sell from Fish Bag
+  bag_not_held_in_hand: Bag not held in hand

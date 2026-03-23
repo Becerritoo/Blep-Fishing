@@ -3,6 +3,11 @@ Fish:
   caught: "&8Capturado Por: {player} on {date}"
   Scoreboard:
     size: "&b{size}\""
+  announce: "{player} &facaba de atrapar un {fish} {rarity}&f!"
+  value: "&9Valor: ${value}"
+  chatInfo: "Acabas de atrapar un {fish} {rarity}&f!"
+  actionBar: "&fAtrapaste un {fish} {rarity}&f : {size}\""
+  hoverTitle: "{fish} {rarity}"
 
 Treasure:
   Casket:
@@ -58,6 +63,7 @@ Tournament:
   noneCaught: "No pescados capturado antes de la conclusión del Torneo, nel premio no se distribuyó"
   leaderboard: "&l-- {tournament}&l Tabla de Clasificación - Flota Cursor para mas Informacion --"
   start: "El {tournament}&f Torneo Empezo!"
+  newBest: "{player} acaba de tomar el primer lugar en el {tournament} &f con un {fish} {rarity}!"
 
 System:
   prefix: "&b[BF]&f "
@@ -149,3 +155,4 @@ UI:
             prompt: "¿Cuál debería ser la probabilidad de caída del artículo? Actual: {amount}"
         createNew: "&bCrear Nuevo Tesoro"
 Author: "CooliusJulius"
+Language: es_ES

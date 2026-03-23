@@ -198,7 +198,7 @@ public class TournamentObject {
                     .replace("{player}", fish.getCatchingPlayer().getName())
                     .replace("{tournament}", getType().Name)
                     .replace("{rarity}", fish.getRarity().getFormattedName())
-                    .replace("{fish}", fish.getType().Name)));
+                    .replace("{fish}", fish.getFormattedName())));
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 
 

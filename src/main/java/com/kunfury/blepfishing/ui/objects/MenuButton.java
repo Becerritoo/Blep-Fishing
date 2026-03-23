@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
@@ -63,7 +64,7 @@ public abstract class MenuButton {
     }
 
     protected void setButtonTitle(ItemMeta m, String title){
-        m.setDisplayName(ChatColor.AQUA + title);
+        m.setDisplayName(Formatting.LocalizeLiteralText(ChatColor.AQUA + title));
     }
 
 
@@ -115,6 +116,17 @@ public abstract class MenuButton {
         assert m != null;
         m = setButtonId(m, getId());
 
+        if (m.hasDisplayName()) {
+            m.setDisplayName(Formatting.LocalizeLiteralText(m.getDisplayName()));
+        }
+        if (m.hasLore() && m.getLore() != null) {
+            List<String> localizedLore = new ArrayList<>();
+            for (String loreLine : m.getLore()) {
+                localizedLore.add(Formatting.LocalizeLiteralText(loreLine));
+            }
+            m.setLore(localizedLore);
+        }
+
 
         item.setItemMeta(m);
 
@@ -133,12 +145,14 @@ public abstract class MenuButton {
         assert meta != null;
 
         if(name != null)
-            meta.setDisplayName(name);
+            meta.setDisplayName(Formatting.LocalizeLiteralText(name));
 
         List<String> itemLore = new ArrayList<>();
 
         if(lore != null)
-            itemLore = lore;
+            for (String loreLine : lore) {
+                itemLore.add(Formatting.LocalizeLiteralText(loreLine));
+            }
 
         if(Utilities.DebugMode){
             itemLore.add("");
@@ -217,7 +231,7 @@ public abstract class MenuButton {
 
 
         if(!Conversations.containsKey(playerId)){
-            player.sendMessage(Formatting.GetMessagePrefix() + "No Valid Conversation Found");
+            player.sendMessage(Formatting.GetFormattedMessage("Messages.Errors.noValidConversation"));
             return;
         }
 
@@ -231,22 +245,49 @@ public abstract class MenuButton {
 
     private ConversationFactory getFactory(Prompt prompt){
         return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(prompt)
+                .withFirstPrompt(getLocalizedPrompt(prompt))
                 .withModality(true)
                 .withTimeout(60)
                 .withEscapeSequence("cancel")
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+                .thatExcludesNonPlayersWithMessage(Formatting.GetFormattedMessage("Messages.Errors.playerOnlyConversationFactory"));
     }
 
     protected Conversation getConversation(Player player, Prompt prompt){
-        TextComponent message = new TextComponent(Formatting.GetMessagePrefix() +  ChatColor.RED + "[CANCEL]");
+        TextComponent message = new TextComponent(Formatting.GetMessagePrefix() +  ChatColor.RED + Formatting.GetLanguageString("UI.System.Conversation.cancelButton"));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bf CancelConversation"));
-        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click to Cancel Conversation")));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(Formatting.GetLanguageString("UI.System.Conversation.cancelHover"))));
 
         player.spigot().sendMessage(message);
 
         Conversation convo = getFactory(prompt).buildConversation(player);
         Conversations.put(player.getUniqueId(), convo);
         return convo;
+    }
+
+    private Prompt getLocalizedPrompt(Prompt prompt) {
+        if (prompt == null || prompt == Prompt.END_OF_CONVERSATION) {
+            return prompt;
+        }
+
+        return new Prompt() {
+            @Override
+            public String getPromptText(ConversationContext context) {
+                return Formatting.LocalizeLiteralText(prompt.getPromptText(context));
+            }
+
+            @Override
+            public boolean blocksForInput(ConversationContext context) {
+                return prompt.blocksForInput(context);
+            }
+
+            @Override
+            public Prompt acceptInput(ConversationContext context, String input) {
+                Prompt next = prompt.acceptInput(context, input);
+                if (next == Prompt.END_OF_CONVERSATION || next == null) {
+                    return next;
+                }
+                return getLocalizedPrompt(next);
+            }
+        };
     }
 }

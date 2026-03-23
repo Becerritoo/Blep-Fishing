@@ -6,7 +6,7 @@
 
   <groupId>org.kunfury</groupId>
   <artifactId>blep-fishing</artifactId>
-  <version>2.6-JL.1</version>
+  <version>2.6-JL.2</version>
   <packaging>jar</packaging>
   <name>BlepFishing</name>
 

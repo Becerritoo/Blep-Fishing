@@ -97,7 +97,7 @@ public class FishBagFishButton extends MenuButton {
     private ItemStack getBagItem(){
         ItemStack heldItem = player.getInventory().getItemInMainHand();
         if(heldItem.getType() != ItemHandler.BagMat){
-            player.sendMessage("Bag not held in hand");
+            player.sendMessage(Formatting.GetFormattedMessage("Messages.Errors.bagNotInMainHand"));
             return null;
         }
         return heldItem;

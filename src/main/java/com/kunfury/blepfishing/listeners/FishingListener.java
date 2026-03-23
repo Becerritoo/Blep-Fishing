@@ -188,7 +188,7 @@ public class FishingListener implements Listener {
         TextComponent textComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Fish.announce")
                 .replace("{player}", player.getDisplayName())
                 .replace("{rarity}", fish.getRarity().getFormattedName())
-                .replace("{fish}", fish.getType().Name)));
+                .replace("{fish}", fish.getFormattedName())));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 
 

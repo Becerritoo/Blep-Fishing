@@ -40,7 +40,7 @@ public class BaseConfig {
     }
 
     public String getLanguage() {
-        return config.getString("Language", "English");
+        return config.getString("Language", "en_US");
     }
 
     public void setLanguage(String language) {

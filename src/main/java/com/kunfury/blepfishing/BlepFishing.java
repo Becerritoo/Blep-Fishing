@@ -57,7 +57,13 @@ public final class BlepFishing extends JavaPlugin {
         setupEconomy();
 
         ConfigHandler = new ConfigHandler();
-        ConfigHandler.Initialize();
+        try {
+            ConfigHandler.Initialize();
+        } catch (RuntimeException ex) {
+            getLogger().severe("Failed to initialize language system: " + ex.getMessage());
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         SetupEvents();
         ItemHandler.Initialize();

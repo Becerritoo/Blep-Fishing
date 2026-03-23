@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -38,9 +39,9 @@ public class ConfigHandler {
 
     public HashMap<String, YamlConfiguration> Translations;
 
-    private static final String DEFAULT_LANGUAGE = "English";
+    private static final String DEFAULT_LANGUAGE = "en_US";
     private static final String LANG_DIR = "lang";
-    private static final String LEGACY_LANG_DIR = "translations";
+    private static final Map<String, String> LEGACY_LANGUAGE_ALIASES = createLegacyLanguageAliases();
 
     private String activeLanguage = DEFAULT_LANGUAGE;
     private final Set<String> missingLocalizationWarnings = new HashSet<>();
@@ -71,11 +72,12 @@ public class ConfigHandler {
     private void initializeLanguageSystem() {
         missingLocalizationWarnings.clear();
         ensureCoreDataFilesExist();
+        migrateLegacyLanguageFiles();
         exportBundledLanguageFiles();
         LoadTranslations();
 
         if (Translations == null || Translations.isEmpty()) {
-            Utilities.Severe("No language files were found. Falling back to built-in defaults.");
+            throw new IllegalStateException("No language files were found in " + getLanguageDirectory().getAbsolutePath());
         }
 
         String configuredLanguage = baseConfig.getLanguage();
@@ -90,11 +92,25 @@ public class ConfigHandler {
         }
 
         activeLanguage = resolvedLanguage;
-        seedDynamicLanguageEntries(activeLanguage);
+
+        List<String> languagesToSeed = new ArrayList<>();
+        if (Translations != null) {
+            languagesToSeed.addAll(Translations.keySet());
+        }
+        if (!languagesToSeed.contains(DEFAULT_LANGUAGE)) {
+            languagesToSeed.add(DEFAULT_LANGUAGE);
+        }
+        if (!languagesToSeed.contains(activeLanguage)) {
+            languagesToSeed.add(activeLanguage);
+        }
+
+        for (String languageName : languagesToSeed) {
+            seedDynamicLanguageEntries(languageName);
+        }
         LoadTranslations();
 
         if (!loadLanguageInternal(activeLanguage, false)) {
-            loadLanguageInternal(DEFAULT_LANGUAGE, false);
+            throw new IllegalStateException("Failed to load configured language '" + activeLanguage + "'.");
         }
     }
 
@@ -128,9 +144,6 @@ public class ConfigHandler {
         }
 
         List<String> bundledPaths = listBundledLanguagePaths(LANG_DIR + "/");
-        if (bundledPaths.isEmpty()) {
-            bundledPaths = listBundledLanguagePaths(LEGACY_LANG_DIR + "/");
-        }
 
         for (String resourcePath : bundledPaths) {
             String fileName = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
@@ -150,14 +163,8 @@ public class ConfigHandler {
         }
 
         File[] existingLangFiles = languageDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-        if ((existingLangFiles == null || existingLangFiles.length == 0) && getMessagesFile().exists()) {
-            YamlConfiguration legacyMessages = YamlConfiguration.loadConfiguration(getMessagesFile());
-            legacyMessages.set("Language", DEFAULT_LANGUAGE);
-            try {
-                legacyMessages.save(new File(languageDir, DEFAULT_LANGUAGE + ".yml"));
-            } catch (IOException e) {
-                Utilities.Severe("Failed to convert legacy messages.yml into lang file: " + e.getMessage());
-            }
+        if (existingLangFiles == null || existingLangFiles.length == 0) {
+            throw new IllegalStateException("No bundled language files were exported to " + languageDir.getAbsolutePath());
         }
     }
 
@@ -194,12 +201,56 @@ public class ConfigHandler {
         return new File(BlepFishing.instance.getDataFolder(), LANG_DIR);
     }
 
-    private File getMessagesFile() {
-        return new File(BlepFishing.instance.getDataFolder(), "messages.yml");
-    }
-
     private File getLanguageFile(String language) {
         return new File(getLanguageDirectory(), language + ".yml");
+    }
+
+    private static Map<String, String> createLegacyLanguageAliases() {
+        Map<String, String> aliases = new HashMap<>();
+        aliases.put("English", "en_US");
+        aliases.put("German", "de_DE");
+        aliases.put("Polish", "pl_PL");
+        aliases.put("Spanish", "es_ES");
+        aliases.put("es_mx", "es_MX");
+        return aliases;
+    }
+
+    private String mapAliasToCanonical(String languageName) {
+        if (languageName == null || languageName.trim().isEmpty()) {
+            return languageName;
+        }
+
+        String trimmed = languageName.trim();
+        String exact = LEGACY_LANGUAGE_ALIASES.get(trimmed);
+        if (exact != null) {
+            return exact;
+        }
+
+        for (Map.Entry<String, String> entry : LEGACY_LANGUAGE_ALIASES.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(trimmed)) {
+                return entry.getValue();
+            }
+        }
+
+        return trimmed;
+    }
+
+    private String findTranslationByName(String languageName) {
+        if (languageName == null || languageName.trim().isEmpty() || Translations == null) {
+            return null;
+        }
+
+        if (Translations.containsKey(languageName)) {
+            return languageName;
+        }
+
+        for (String lang : Translations.keySet()) {
+            if (lang.equalsIgnoreCase(languageName)) {
+                return lang;
+            }
+        }
+
+        return null;
     }
 
     private String resolveLanguageName(String requestedName) {
@@ -207,19 +258,13 @@ public class ConfigHandler {
             return null;
         }
 
-        if (Translations != null && Translations.containsKey(requestedName)) {
-            return requestedName;
+        String canonicalRequested = mapAliasToCanonical(requestedName);
+        String resolved = findTranslationByName(canonicalRequested);
+        if (resolved != null) {
+            return resolved;
         }
 
-        if (Translations != null) {
-            for (String lang : Translations.keySet()) {
-                if (lang.equalsIgnoreCase(requestedName)) {
-                    return lang;
-                }
-            }
-        }
-
-        return null;
+        return findTranslationByName(requestedName);
     }
 
     private void mergeYaml(YamlConfiguration from, YamlConfiguration into) {
@@ -229,14 +274,6 @@ public class ConfigHandler {
 
         for (String path : from.getKeys(true)) {
             into.set(path, from.get(path));
-        }
-    }
-
-    private void writeMessagesFile(YamlConfiguration languageYaml) {
-        try {
-            languageYaml.save(getMessagesFile());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -264,7 +301,6 @@ public class ConfigHandler {
 
         Formatting.languageYaml = mergedYaml;
         activeLanguage = resolved;
-        writeMessagesFile(mergedYaml);
 
         if (persistInConfig && baseConfig != null) {
             baseConfig.setLanguage(resolved);
@@ -453,6 +489,62 @@ public class ConfigHandler {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    private File findLanguageFileIgnoreCase(File languageDir, String languageName) {
+        if (languageDir == null || !languageDir.exists() || languageName == null || languageName.trim().isEmpty()) {
+            return null;
+        }
+
+        File[] files = languageDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
+        if (files == null) {
+            return null;
+        }
+
+        String expected = languageName + ".yml";
+        for (File file : files) {
+            if (file.getName().equalsIgnoreCase(expected)) {
+                return file;
+            }
+        }
+
+        return null;
+    }
+
+    private void migrateLegacyLanguageFiles() {
+        File languageDir = getLanguageDirectory();
+        if (!languageDir.exists() && !languageDir.mkdirs()) {
+            Utilities.Severe("Could not create language directory: " + languageDir.getAbsolutePath());
+            return;
+        }
+
+        for (Map.Entry<String, String> alias : LEGACY_LANGUAGE_ALIASES.entrySet()) {
+            String legacyName = alias.getKey();
+            String canonicalName = alias.getValue();
+
+            if (legacyName.equalsIgnoreCase(canonicalName)) {
+                continue;
+            }
+
+            File legacyFile = findLanguageFileIgnoreCase(languageDir, legacyName);
+            if (legacyFile == null || !legacyFile.exists()) {
+                continue;
+            }
+
+            File canonicalFile = findLanguageFileIgnoreCase(languageDir, canonicalName);
+            if (canonicalFile != null && canonicalFile.exists()) {
+                Bukkit.getLogger().warning("[BlepFishing] Found both legacy '" + legacyFile.getName() + "' and canonical '" + canonicalFile.getName() + "'. Using canonical.");
+                continue;
+            }
+
+            canonicalFile = new File(languageDir, canonicalName + ".yml");
+            try {
+                FileUtils.moveFile(legacyFile, canonicalFile);
+                Bukkit.getLogger().info("[BlepFishing] Migrated language file '" + legacyFile.getName() + "' -> '" + canonicalFile.getName() + "'.");
+            } catch (IOException e) {
+                Utilities.Severe("Failed to migrate language file '" + legacyFile.getName() + "' -> '" + canonicalFile.getName() + "': " + e.getMessage());
+            }
+        }
+    }
+
     private void warnMissingLocalizationKey(String key) {
         if (key == null || key.isEmpty()) {
             return;
@@ -530,13 +622,28 @@ public class ConfigHandler {
         }
         sortedFiles.sort(Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
 
+        HashMap<String, Integer> sourcePriority = new HashMap<>();
+
         for (File file : sortedFiles) {
             String fileName = file.getName();
             int dotPos = fileName.lastIndexOf('.');
-            String languageName = dotPos == -1 ? fileName : fileName.substring(0, dotPos);
+            String rawLanguageName = dotPos == -1 ? fileName : fileName.substring(0, dotPos);
+            String languageName = mapAliasToCanonical(rawLanguageName);
+            int candidatePriority = languageName.equals(rawLanguageName) ? 2 : 1;
+
+            Integer existingPriority = sourcePriority.get(languageName);
+            if (existingPriority != null && candidatePriority <= existingPriority) {
+                Bukkit.getLogger().warning("[BlepFishing] Duplicate language '" + languageName + "' detected in '" + fileName + "'. Keeping higher-priority file.");
+                continue;
+            }
+
+            if (existingPriority != null && candidatePriority > existingPriority) {
+                Bukkit.getLogger().warning("[BlepFishing] Duplicate language '" + languageName + "' detected. Canonical file '" + fileName + "' will override legacy variant.");
+            }
 
             YamlConfiguration languageYaml = YamlConfiguration.loadConfiguration(file);
             Translations.put(languageName, languageYaml);
+            sourcePriority.put(languageName, candidatePriority);
         }
     }
 
@@ -552,5 +659,20 @@ public class ConfigHandler {
         guiConfig = new GuiConfig();
 
         MenuHandler.reload();
+    }
+
+    public String getActiveLanguage() {
+        return activeLanguage;
+    }
+
+    public String getDefaultLanguage() {
+        return DEFAULT_LANGUAGE;
+    }
+
+    public YamlConfiguration getTranslationYaml(String language) {
+        if (Translations == null || language == null) {
+            return null;
+        }
+        return Translations.get(language);
     }
 }

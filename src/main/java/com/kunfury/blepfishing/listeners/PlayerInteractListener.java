@@ -191,7 +191,7 @@ public class PlayerInteractListener implements Listener {
                     player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY_FISH, .3f, 1f);
                     return;
                 }
-                player.sendMessage("You must be sneaking to sell from Fish Bag");
+                player.sendMessage(Formatting.GetFormattedMessage("Messages.Errors.bagSellSneakRequired"));
                 return;
             }
         }

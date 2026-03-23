@@ -198,7 +198,9 @@ public class FishObject {
     }
 
     public Text getHoverText(){
-        String content = getRarity().getFormattedName() + " " + getType().Name;
+        String content = Formatting.GetLanguageString("Fish.hoverTitle")
+                .replace("{rarity}", getRarity().getFormattedName())
+                .replace("{fish}", getFormattedName());
 
         content += "\n" + Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(Length));
@@ -232,5 +234,3 @@ public class FishObject {
     }
 
 }
-
-

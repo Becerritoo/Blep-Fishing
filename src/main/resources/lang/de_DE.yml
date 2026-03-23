@@ -153,3 +153,4 @@ UI:
             prompt: 'Wie hoch soll die Drop-Chance des Gegenstands sein? Aktuell: {amount}'
         createNew: '&bNeuen Schatz erstellen'
 Author: "Bebusch"
+Language: de_DE
