@@ -39,6 +39,14 @@ public class BaseConfig {
         return config.getBoolean("Show Fishing Rod Stats");
     }
 
+    public String getLanguage() {
+        return config.getString("Language", "English");
+    }
+
+    public void setLanguage(String language) {
+        config.set("Language", language);
+    }
+
     public int getAllBlueRadius() {
         return config.getInt("All Blue.Radius");
     }
@@ -60,6 +68,7 @@ public class BaseConfig {
         newConfig.set("Show Chat", getChatScoreboard());
         newConfig.set("Show Actionbar", getActionBarScoreboard());
         newConfig.set("Show Fishing Rod Stats", getShowFishingRodStats());
+        newConfig.set("Language", getLanguage());
 
         newConfig.set("All Blue.Radius", getAllBlueRadius());
         newConfig.set("All Blue.Area", getAllBlueArea().Id);

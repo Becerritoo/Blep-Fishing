@@ -34,7 +34,10 @@ public class PlayerPanel extends Panel {
     @Override
     public void Show(Player player) {
         // Apply all custom settings locally before showing the panel
-        this.Title = Formatting.formatColor(ConfigHandler.instance.guiConfig.getPlayerPanelTitle());
+        String localizedTitle = ConfigHandler.instance.getLocalizedValue(
+                "Text.Gui.PlayerPanel.Title",
+                ConfigHandler.instance.guiConfig.getPlayerPanelTitle());
+        this.Title = Formatting.ResolveConfigText(localizedTitle);
         this.InventorySize = Utilities.getInventorySize(ConfigHandler.instance.guiConfig.getPlayerPanelSize());
 
         // --- Custom Show Logic for PlayerPanel ---
@@ -143,7 +146,7 @@ public class PlayerPanel extends Panel {
                     condition = Database.Rewards.HasRewards(player.getUniqueId().toString());
                     break;
                 case "Custom":
-                    createCustomButton(player, slot, btnConfig);
+                    createCustomButton(player, slot, btnConfig, key);
                     break;
             }
 
@@ -151,12 +154,12 @@ public class PlayerPanel extends Panel {
                 // Set a unique ID for the button based on its config key to avoid collisions
                 button.setUniqueId(button.getClass().getName() + "_" + key);
 
-                inv.setItem(slot, getButtonItem(button, btnConfig, player));
+                inv.setItem(slot, getButtonItem(button, btnConfig, player, key));
             }
         }
     }
 
-    private ItemStack getButtonItem(MenuButton button, ConfigurationSection config, Player player) {
+    private ItemStack getButtonItem(MenuButton button, ConfigurationSection config, Player player, String buttonKey) {
         ItemStack item = button.getItemStack(player); // Get default item
 
         ConfigurationSection itemConfig = config.getConfigurationSection("Item");
@@ -180,16 +183,16 @@ public class PlayerPanel extends Panel {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
 
-        String name = itemConfig.getString("Name");
-        if (name != null) meta.setDisplayName(Formatting.formatColor(name));
+        String name = ConfigHandler.instance.getLocalizedValue(
+                "Text.Gui.PlayerPanel.Buttons." + buttonKey + ".Name",
+                itemConfig.getString("Name"));
+        if (name != null) meta.setDisplayName(Formatting.ResolveConfigText(name));
 
-        if (itemConfig.contains("Lore")) {
-            List<String> lore = itemConfig.getStringList("Lore");
-            List<String> formattedLore = new ArrayList<>();
-            for (String line : lore) {
-                formattedLore.add(Formatting.formatColor(line));
-            }
-            meta.setLore(formattedLore);
+        List<String> lore = ConfigHandler.instance.getLocalizedList(
+                "Text.Gui.PlayerPanel.Buttons." + buttonKey + ".Lore",
+                itemConfig.getStringList("Lore"));
+        if (lore != null && !lore.isEmpty()) {
+            meta.setLore(Formatting.ResolveConfigLore(lore));
         }
 
         if (itemConfig.contains("CustomModelData")) {
@@ -207,7 +210,7 @@ public class PlayerPanel extends Panel {
         return item;
     }
 
-    private void createCustomButton(Player player, int slot, ConfigurationSection config) {
+    private void createCustomButton(Player player, int slot, ConfigurationSection config, String buttonKey) {
         ConfigurationSection itemConfig = config.getConfigurationSection("Item");
         Material material = Material.STONE;
         String name = null;
@@ -218,10 +221,12 @@ public class PlayerPanel extends Panel {
             String materialName = itemConfig.getString("Material", "STONE");
             material = Material.getMaterial(materialName);
             if (material == null) material = Material.STONE;
-            name = itemConfig.getString("Name");
-            if (itemConfig.contains("Lore")) {
-                lore = itemConfig.getStringList("Lore");
-            }
+            name = ConfigHandler.instance.getLocalizedValue(
+                    "Text.Gui.PlayerPanel.Buttons." + buttonKey + ".Name",
+                    itemConfig.getString("Name"));
+            lore = ConfigHandler.instance.getLocalizedList(
+                    "Text.Gui.PlayerPanel.Buttons." + buttonKey + ".Lore",
+                    itemConfig.getStringList("Lore"));
             customModelData = itemConfig.getInt("CustomModelData", 0);
         }
 

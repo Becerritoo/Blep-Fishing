@@ -24,6 +24,7 @@ public class CommandManager implements TabExecutor {
                 new TournamentsSubCommand(),
                 new FishSubCommand(),
                 new ReloadSubCommand(),
+                new ReloadLanguageSubCommand(),
                 new SellSubCommand(),
                 new SellAllSubCommand(),
                 new SellForSubCommand(),

@@ -37,6 +37,7 @@ public class RarityConfig {
             String prefix = rarityConfig.getString(key + ".Prefix");
             boolean announce = rarityConfig.getBoolean(key + ".Announce");
             double valueMod = rarityConfig.getDouble(key + ".ValueMod");
+            name = ConfigHandler.instance.getLocalizedValue("Text.Rarities." + key + ".Name", name);
             if(valueMod == 0)
                 valueMod = 1.0;
 

@@ -144,11 +144,58 @@ public class Formatting {
 	 * @return Color formatted String from Language YAYamlConfiguration
 	 */
 	public static String GetLanguageString(String key){
-		if(languageYaml.contains(key)){
-			return formatColor(languageYaml.getString(key));
-		}else{
-			return ChatColor.RED + "Message Not Found - " + key;
+		String translated = TryGetLanguageString(key);
+		if(translated != null) {
+			return translated;
 		}
+		return ChatColor.RED + "Message Not Found - " + key;
+	}
+
+	public static String TryGetLanguageString(String key) {
+		if(languageYaml.contains(key)){
+			String value = languageYaml.getString(key);
+			if(value == null) {
+				return null;
+			}
+			return formatColor(value);
+		}
+		return null;
+	}
+
+	// Allows config-driven text to point to language keys with:
+	// lang:My.Key, @lang:My.Key or %lang:My.Key%
+	public static String ResolveConfigText(String raw){
+		if(raw == null) {
+			return null;
+		}
+		String trimmed = raw.trim();
+
+		String key = null;
+		if(trimmed.startsWith("lang:")) {
+			key = trimmed.substring("lang:".length());
+		} else if(trimmed.startsWith("@lang:")) {
+			key = trimmed.substring("@lang:".length());
+		} else if(trimmed.startsWith("%lang:") && trimmed.endsWith("%") && trimmed.length() > 7) {
+			key = trimmed.substring("%lang:".length(), trimmed.length() - 1);
+		}
+
+		if(key != null && !key.isEmpty()) {
+			String translated = GetLanguageString(key);
+			return translated != null ? translated : ChatColor.RED + "Message Not Found - " + key;
+		}
+
+		return formatColor(raw);
+	}
+
+	public static List<String> ResolveConfigLore(List<String> lore) {
+		List<String> resolved = new ArrayList<>();
+		if(lore == null) {
+			return resolved;
+		}
+		for(String line : lore) {
+			resolved.add(ResolveConfigText(line));
+		}
+		return resolved;
 	}
 
 	private static String prefix;
