@@ -30,6 +30,10 @@ Works to completely overhaul the default fishing in minecraft by adding multipla
 
 ## JL Translation Layer (2.6-JL.2)
 - Compatible with Paper `1.21.4+` (`api-version: 1.21`).
+
+### Tested Compatibility (JL)
+- `Paper 1.21.4`: PASS (smoke + gameplay flows)
+- `Paper 1.21.11`: PASS (smoke + gameplay flows)
 - Global language is configured in `plugins/BlepFishing/config.yml`:
   - `Language: en_US` (legacy aliases like `English` and `es_mx` are still accepted)
 - On first boot, language files are exported to:
