@@ -27,3 +27,42 @@
 <!-- ABOUT THE PROJECT -->
 ## About
 Works to completely overhaul the default fishing in minecraft by adding multiplayer Fishing Tournaments, a Treasure System, Fishing Gear and Equipment, and Statistics and Analytics of your Server
+
+## Localization
+- Compatible with Paper `1.21.4+` (`api-version: 1.21`).
+- Global language is configured in `plugins/BlepFishing/config.yml`:
+  - `Language: en_US` (legacy aliases like `English` and `es_mx` are still accepted)
+- On first boot, language files are exported to:
+  - `plugins/BlepFishing/lang/*.yml`
+- `messages.yml` is no longer generated or used; translations are loaded from the language directory.
+- The plugin now seeds external translatable keys for:
+  - fish names/lore/description
+  - casket names
+  - tournament names
+  - rarity names
+  - area names/hints
+  - player panel GUI title/button names/lore
+- Hot reload language/config text with:
+  - `/bf reloadlang`
+  - aliases: `/bf langreload`, `/bf reloadlanguage`, `/bf rlang`
+
+### GUI language key syntax
+You can reference language keys directly in `gui.yml` values with:
+- `lang:Some.Path.Key`
+- `@lang:Some.Path.Key`
+- `%lang:Some.Path.Key%`
+
+### Hardcoded text bridge (`Literals`)
+- Remaining legacy UI/admin literals are bridged through `lang/*.yml` under `Literals.*`.
+- This lets you translate panel titles, prompts, and button text without touching Java code.
+- Recommended workflow:
+  - Keep `lang/en_US.yml` as canonical source.
+  - Mirror keys in `lang/es_MX.yml`.
+
+### i18n audit script
+- Run:
+  - `python3 scripts/audit_i18n.py`
+- It validates:
+  - keys used by `GetLanguageString` / `GetFormattedMessage` exist in `en_US.yml`,
+  - `es_MX.yml` has parity against `en_US.yml`,
+  - no direct hardcoded message literals remain in guarded paths.
