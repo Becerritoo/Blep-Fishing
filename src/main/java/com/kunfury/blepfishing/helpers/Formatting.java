@@ -1,8 +1,9 @@
 package com.kunfury.blepfishing.helpers;
 
-import com.kunfury.blepfishing.ui.objects.Panel;
+import com.kunfury.blepfishing.config.ConfigHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,8 +16,11 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Formatting {
@@ -144,11 +148,137 @@ public class Formatting {
 	 * @return Color formatted String from Language YAYamlConfiguration
 	 */
 	public static String GetLanguageString(String key){
-		if(languageYaml.contains(key)){
-			return formatColor(languageYaml.getString(key));
-		}else{
-			return ChatColor.RED + "Message Not Found - " + key;
+		String translated = TryGetLanguageString(key);
+		if(translated != null) {
+			return translated;
 		}
+		return ChatColor.RED + "Message Not Found - " + key;
+	}
+
+	public static String TryGetLanguageString(String key) {
+		if(languageYaml.contains(key)){
+			String value = languageYaml.getString(key);
+			if(value == null) {
+				return null;
+			}
+			return formatColor(value);
+		}
+		return null;
+	}
+
+	// Allows config-driven text to point to language keys with:
+	// lang:My.Key, @lang:My.Key or %lang:My.Key%
+	public static String ResolveConfigText(String raw){
+		if(raw == null) {
+			return null;
+		}
+		String trimmed = raw.trim();
+
+		String key = null;
+		if(trimmed.startsWith("lang:")) {
+			key = trimmed.substring("lang:".length());
+		} else if(trimmed.startsWith("@lang:")) {
+			key = trimmed.substring("@lang:".length());
+		} else if(trimmed.startsWith("%lang:") && trimmed.endsWith("%") && trimmed.length() > 7) {
+			key = trimmed.substring("%lang:".length(), trimmed.length() - 1);
+		}
+
+		if(key != null && !key.isEmpty()) {
+			String translated = GetLanguageString(key);
+			return translated != null ? translated : ChatColor.RED + "Message Not Found - " + key;
+		}
+
+		return formatColor(raw);
+	}
+
+	private static final String LITERAL_ROOT = "Literals";
+
+	public static String LocalizeLiteralText(String raw) {
+		if (raw == null) {
+			return null;
+		}
+
+		String resolved = formatColor(raw);
+
+		YamlConfiguration active = languageYaml;
+		ConfigHandler configHandler = ConfigHandler.instance;
+		if (configHandler == null || active == null) {
+			return resolved;
+		}
+
+		YamlConfiguration english = configHandler.getTranslationYaml(configHandler.getDefaultLanguage());
+		if (english == null) {
+			return resolved;
+		}
+
+		Map<String, String> englishLiterals = getLiteralMap(english);
+		if (englishLiterals.isEmpty()) {
+			return resolved;
+		}
+
+		Map<String, String> translatedLiterals = getLiteralMap(active);
+		List<Map.Entry<String, String>> orderedEnglishLiterals = new ArrayList<>(englishLiterals.entrySet());
+		orderedEnglishLiterals.sort(Comparator.comparingInt((Map.Entry<String, String> e) -> e.getValue().length()).reversed());
+
+		for (Map.Entry<String, String> entry : orderedEnglishLiterals) {
+			String literalKey = entry.getKey();
+			String source = entry.getValue();
+			if (source == null || source.isBlank()) {
+				continue;
+			}
+
+			String translated = translatedLiterals.getOrDefault(literalKey, source);
+			if (translated == null || translated.isBlank()) {
+				translated = source;
+			}
+
+			String translatedFormatted = formatColor(translated);
+
+			if (resolved.equals(source)) {
+				return translatedFormatted;
+			}
+
+			// Segment localization for runtime strings with dynamic values.
+			if (source.length() >= 8 && (source.contains(" ") || source.contains(":") || source.contains("-"))) {
+				resolved = resolved.replace(source, translatedFormatted);
+			}
+		}
+
+		return resolved;
+	}
+
+	private static Map<String, String> getLiteralMap(YamlConfiguration yaml) {
+		Map<String, String> result = new LinkedHashMap<>();
+		if (yaml == null) {
+			return result;
+		}
+
+		ConfigurationSection section = yaml.getConfigurationSection(LITERAL_ROOT);
+		if (section == null) {
+			return result;
+		}
+
+		for (String key : section.getKeys(true)) {
+			String path = LITERAL_ROOT + "." + key;
+			if (yaml.isString(path)) {
+				String value = yaml.getString(path);
+				if (value != null) {
+					result.put(key, value);
+				}
+			}
+		}
+		return result;
+	}
+
+	public static List<String> ResolveConfigLore(List<String> lore) {
+		List<String> resolved = new ArrayList<>();
+		if(lore == null) {
+			return resolved;
+		}
+		for(String line : lore) {
+			resolved.add(ResolveConfigText(line));
+		}
+		return resolved;
 	}
 
 	private static String prefix;
