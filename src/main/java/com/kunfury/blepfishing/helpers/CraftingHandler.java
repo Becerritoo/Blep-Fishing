@@ -4,7 +4,6 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -70,7 +69,7 @@ public class CraftingHandler {
     public static void CheckBagCraft(CraftItemEvent e, ItemStack item){
         if(!FishBag.IsBag(item) || FishBag.IsBag(e.getInventory().getResult())) return;
         e.setCancelled(true);
-        e.getWhoClicked().sendMessage(Formatting.GetMessagePrefix() + ChatColor.RED + "You cannot use your bag for that."); //TODO: Add to messages.yml
+        e.getWhoClicked().sendMessage(Formatting.GetFormattedMessage("Messages.Errors.bagInvalidCraft"));
     }
 
     public static void LearnRecipes(Player player){

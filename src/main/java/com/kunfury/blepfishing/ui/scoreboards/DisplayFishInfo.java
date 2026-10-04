@@ -24,7 +24,7 @@ public class DisplayFishInfo {
         if(ConfigHandler.instance.baseConfig.getChatScoreboard()){
             TextComponent mainComponent = new TextComponent(Formatting.GetFormattedMessage("Fish.chatInfo")
                     .replace("{rarity}", fish.getRarity().getFormattedName())
-                    .replace("{fish}", fish.getType().Name));
+                    .replace("{fish}", fish.getFormattedName()));
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 
             player.spigot().sendMessage(mainComponent);

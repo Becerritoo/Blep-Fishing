@@ -43,7 +43,7 @@ public class TournamentPlaceholder extends  Placeholder{
             return activeString.toString();
         }else{
             if(!TournamentType.IdExists(tourneyTypeId)){
-                return Formatting.GetLanguageString("Papi.Tournament.notFound");
+                return Formatting.GetLanguageString("PAPI.Tournament.notFound");
             }
         }
 
