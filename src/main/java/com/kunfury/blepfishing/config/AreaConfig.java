@@ -35,6 +35,8 @@ public class AreaConfig {
             List<String> biomes = areaConfig.getStringList(key + ".Biomes");
             boolean compassPiece = areaConfig.getBoolean(key + ".Compass Piece");
             String compassHint = areaConfig.getString(key + ".Compass Hint");
+            name = ConfigHandler.instance.getLocalizedValue("Text.Areas." + key + ".Name", name);
+            compassHint = ConfigHandler.instance.getLocalizedValue("Text.Areas." + key + ".CompassHint", compassHint);
 
             FishingArea fishingArea = new FishingArea(key, name, biomes, compassPiece, compassHint);
             FishingArea.AddNew(fishingArea);

@@ -41,6 +41,7 @@ public class TournamentConfig {
 
 
             String name = config.getString(key + ".Name");
+            name = ConfigHandler.instance.getLocalizedValue("Text.Tournaments." + key + ".Name", name);
             List<String> fishTypes = config.getStringList(key + ".Fish Types");
             double duration = config.getDouble(key + ".Duration");
             boolean villagerHorn = config.getBoolean(key + ".Villager Horn");

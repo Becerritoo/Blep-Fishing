@@ -41,6 +41,10 @@ public class FishConfig {
             int heightMin = fishConfig.getInt(key + ".Height Min");
             int heightMax = fishConfig.getInt(key + ".Height Max");
 
+            name = ConfigHandler.instance.getLocalizedValue("Text.Fish." + key + ".Name", name);
+            lore = ConfigHandler.instance.getLocalizedValue("Text.Fish." + key + ".Lore", lore);
+            desc = ConfigHandler.instance.getLocalizedValue("Text.Fish." + key + ".Description", desc);
+
             List<String> areaIds = getAreas(key);
 
             FishType fishType = new FishType(key, name, lore, desc, lengthMin, lengthMax, modelData, priceBase, areaIds, requireRain, heightMin, heightMax);

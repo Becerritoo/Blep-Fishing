@@ -46,6 +46,7 @@ public class TreasureConfig {
                 String name = casketConfig.getString(key + ".Name");
                 int weight = casketConfig.getInt(key + ".Weight");
                 boolean announce = casketConfig.getBoolean(key + ".Announce");
+                name = ConfigHandler.instance.getLocalizedValue("Text.Treasure.Caskets." + key + ".Name", name);
 
                 var rewardsConfig = casketConfig.getConfigurationSection(key + ".Rewards");
 
