@@ -1,0 +1,539 @@
+Fish:
+  length: '&9Longitud: {size}in.'
+  caught: '&8Capturado por: {player} el {date}'
+  Scoreboard:
+    size: '&b{size}"'
+  announce: '{player} &facaba de atrapar un {fish} {rarity}!&f'
+  value: '&9Valor: ${value}'
+  chatInfo: Acabas de atrapar un {fish} {rarity}&f!
+  actionBar: '&fAtrapaste un {fish} {rarity}&f : {size}"'
+  hoverTitle: '{fish} {rarity}'
+Treasure:
+  announce: '{player} &facaba de pescar un {treasure}&f!'
+  Casket:
+    use: '&bClic derecho para &e&oAbrir'
+    result: ¡Encontraste {item} &fdentro del {casket}&f!
+    announceReward: '{player} &facaba de encontrar {item} &fdentro del {casket}&f!'
+  Compass Piece:
+    name: '&3Fragmento de Brújula'
+    nameMulti: '&bFragmentos de Brújula &f{amount}&b/&f{total}&b'
+  Compass:
+    name: '&3Brújula hacia el All Blue'
+    use: '&bClic derecho para &e&oEnfocar'
+    lore: Realmente existe...
+    error: '&cEste mundo no es adecuado'
+    announce: '&7El viento sopla a tu alrededor, trayendo sonidos del &b&oMar &7desde
+      el {direction}'
+    announceNether: '&7Aunque estás rodeado de fuego infernal, escuchas débilmente
+      el &b&oMar'
+    announceEnd: '&7Desde el vasto vacío que te rodea, &b&oel Mar'
+Equipment:
+  Fish Bag:
+    autoPickup: '&bClic izquierdo mientras sostienes para activar &e&oAuto-Recolección'
+    pickupEnabled: Auto-Recolección activada.
+    pickupDisabled: Auto-Recolección desactivada.
+    depositAll: '&bShift + clic izquierdo mientras sostienes para &e&oDepositar Todo'
+    openBag: '&bClic derecho mientras sostienes para &e&oAbrir'
+    openPanel: '&bShift + clic derecho mientras sostienes para &e&oAbrir Panel del
+      Jugador'
+    descSmall: Guarda una pequeña cantidad de peces
+    noSpace: No hay más espacio en la bolsa.
+    noFish: No se encontraron peces en el inventario.
+    addFish: Se añadieron {amount} a la bolsa.
+    tier1Title: Bolsa Pequeña de Peces
+    tier2Title: Bolsa Mediana de Peces
+    tier3Title: Bolsa Grande de Peces
+    tier4Title: Bolsa Gigante de Peces
+    tier5Title: '&3Bolsa sin fondo'
+    upgrade: '&fInsertar &6{item}&f para actualizar'
+  Fishing Rod:
+    caughtAmount: '&bPeces capturados: &f{amount}'
+  Fishing Journal:
+    name: '&bDiario de Pesca'
+    read: '&bClic derecho para &o&eLeer'
+    panel: '&bShift + clic derecho para &o&eAbrir Panel'
+    Content:
+      Player:
+        totalCaught: Total de peces capturados {amount}
+      Compass:
+        title: ' -- Fragmentos de Brújula --'
+        amount: '{found}/{total} encontrados'
+        hint: '&oPasa el cursor por el fragmento para ver pista'
+      Fish:
+        totalCaught: Total capturados {amount}
+        largestCaught: 'Más grande: {size}"'
+        smallestCaught: 'Más pequeño: {size}"'
+  Tournament Horn:
+    name: '&3Cuerno del Torneo {tournament}'
+    duration: '&9Duración: &f{time}'
+    tournamentFish: '&9Pez: {fish}'
+Tournament:
+  alreadyRunning: '{tournament} ya está en curso.'
+  noneCaught: No se capturaron peces antes de que terminara el torneo, no se entregaron
+    recompensas.
+  leaderboard: '&l-- Clasificación de {tournament}&l - Pasa el cursor para más info
+    --'
+  reward: Ganaste &6{item}&f en {tournament}&f!
+  rewardCurrency: Ganaste $&2{amount}&f en {tournament}&f!
+  start: ¡El Concurso de Pesca {tournament}&f ha comenzado!
+  allFish: '&fTodos los Peces'
+  noFish: '&cNo se define pez'
+  newBest: '{player} acaba de tomar el primer lugar en el {tournament} &f con un {fish}
+    {rarity}!'
+  Grading:
+    Longest:
+      title: Más Largo
+      desc: Gana el jugador que capture el pez más largo, sin importar su rareza.
+    Shortest:
+      title: Más Corto
+      desc: Gana el jugador que capture el pez más corto, sin importar su rareza.
+    ScoreHigh:
+      title: Mejor
+      desc: Gana el jugador que capture el mejor pez. Determinado por longitud y rareza.
+    ScoreLow:
+      title: Peor
+      desc: Gana el jugador que capture el peor pez. Determinado por longitud y rareza.
+System:
+  prefix: '&b[BF]&f '
+  deleted: '&eEliminado con éxito: &c{item}&e.'
+  noCommand: '&cComando no encontrado'
+  noPermission: '&cNo tienes permiso para eso'
+  noPlayer: '&cJugador no encontrado'
+  reload: Recarga completada
+  noFish: '&cNo se encontraron peces'
+  north: Norte
+  south: Sur
+  east: Este
+  west: Oeste
+Economy:
+  soldFish: '&bVendiste &f{fish}&b por &f${value}.'
+  soldAllFish: '&bVendiste &f{amount}&b peces por &f${value}.'
+  sellBagHint: Haz clic derecho para vender todos los peces de la bolsa.
+  sellBagConfirm: ¿Vender todo el pescado de la bolsa? Haz clic derecho de nuevo para
+    confirmar.
+UI:
+  Player:
+    Panels:
+      base: Panel del Jugador
+      tournaments: Torneos de Pesca
+      fishBag: 'Bolsa de Peces: {amount}/{max}'
+      tournamentDetail: '{name} - {amount} capturados'
+      fish: Peces Capturados
+    Buttons:
+      panel: '&bPanel del Jugador'
+      Fish Bag:
+        stored: '&9Cantidad almacenada: &f{amount}'
+        largest: '&9Pez más grande: &f{size}"'
+        withdrawSmall: '&bClic izquierdo para sacar &e&oMás pequeño'
+        withdrawLarge: '&bClic derecho para sacar &e&oMás grande'
+        shift: '&c&oMantén Shift para sacar &eTodos'
+      Base:
+        Claim Rewards:
+          name: '&bReclamar Recompensas'
+          lore: '&9Recompensas Totales: &f{amount}'
+          error: No se pudieron entregar &b{amount}&f objetos.
+        Tournaments:
+          name: '&bTorneos : {amount} en curso'
+          tournament: '&9{name} - &f{time}'
+          empty: '&cNo hay torneos activos'
+        Fish:
+          name: '&bPeces'
+          total: '&9Total capturados: &f{amount}'
+          noneCaught: '&cNo capturado'
+          area: '&9Encontrado en: {areas}'
+        Sell All:
+          name: '&bVender todos los peces -BLEP'
+          lore: '&9Vende todos los peces de tu inventario'
+      Tournaments:
+        name: '&9{name} - &f{time}'
+        view: '&bClic izquierdo para &e&oVer'
+        bossBar: '&bShift + clic izquierdo para &e&oAlternar Barra'
+        cancel: '&bShift + clic derecho &bpara &c&oCancelar torneo'
+        cancelConfirm: ¿&4&lRealmente deseas cancelar el torneo?
+  System:
+    Buttons:
+      goBack: '&cVolver'
+      pageNext: '&bPágina siguiente'
+      pageBack: '&bPágina anterior'
+      info: '&bInformación'
+      edit: '&bClic izquierdo para &e&oEditar'
+      delete: '&bShift + clic derecho para &c&oEliminar'
+      deleteConfirm: '&4&l¿Eliminar realmente?'
+      enabled: '&aActivado'
+      disabled: '&cDesactivado'
+      toggle: '&bShift + clic izquierdo para &c&oAlternar'
+    Conversation:
+      cancelButton: '[CANCELAR]'
+      cancelHover: Haz clic para cancelar la conversacion
+  Admin:
+    Panels:
+      base: Panel de Admin
+      translations: Traducciones
+      general: Ajustes Generales
+      Treasure:
+        base: Panel de Tesoros
+        editCasket: Editar {casket}
+        caskets: Panel Admin de Cofres
+        allBlue: Panel Admin de All Blue
+    Buttons:
+      panel: '&bPanel de Admin'
+      Base:
+        Translations:
+          name: '&bTraducciones'
+          lore: '&f{amount} disponibles'
+        treasure: '&bEditar Tesoros'
+        areas: '&bEditar Zonas'
+        fish: '&bEditar Peces'
+        rarities: '&bEditar Rarezas'
+        general: '&bAjustes Generales'
+        tournaments: '&bEditar Torneos'
+      Translations:
+        select: '&bClic izquierdo para &e&oSeleccionar'
+        reload: '&bClic izquierdo para &e&l&oCargar valores predeterminados'
+        author: '&9Autor: &f{name}'
+        Info:
+          name: '&bInfo'
+          lore: '&f¿Quieres ayudar con las traducciones? &e&oHaz clic para Discord'
+          click: '&bHaz clic para Discord'
+        click: '&fIdioma cargado correctamente: &b{language}'
+      Treasure:
+        name: '&bEditar Recompensas'
+        Base:
+          rewards: '&a{amount}x Recompensas'
+          noRewards: '&cSin recompensas asignadas'
+          unfinishedRewards: '&e{amount}x Recompensas Incompletas'
+          editRewards: '&bEditar recompensas'
+        Announce:
+          name: '&bAnunciar Tesoro Capturado'
+          lore: Anuncia el hallazgo al mundo
+        Weight:
+          name: '&bPeso'
+          lore: A mayor peso, más fácil de encontrar
+          prompt: '¿Cuál debe ser el peso del tesoro? Actual: {amount}'
+          compassName: '&bPeso de Fragmento de Brújula'
+        Name:
+          name: '&bNombre'
+          lore: '&9{name}'
+          prompt: '¿Cuál debe ser el nombre del tesoro? Actual: {name}'
+        Rewards:
+          create: '&bCrear nueva recompensa'
+          Announce:
+            name: '&bAnunciar Recompensa'
+            lore: Anunciar recompensa al mundo
+          Drop Chance:
+            name: '&bProbabilidad de Dropeo'
+            lore: Porcentaje de probabilidad de que el objeto salga del cofre
+            current: '&9Actual: &f{amount}&9%'
+            prompt: '¿Cuál debe ser la probabilidad de dropeo? Actual: {amount}'
+        createNew: '&bCrear nuevo Tesoro'
+        caskets: '&bEditar cofres'
+        allBlue: '&bEditar All Blue'
+      General:
+        showScoreboard: '&bMostrar Marcador'
+        showChat: '&bMostrar captura en el chat'
+        showActionbar: '&bMostrar captura en ActionBar'
+        enableFishBags: '&bActivar Bolsas de Peces'
+        showFishingRodStats: '&bMostrar estadísticas en la caña'
+      Tournament:
+        noTimes: '&cSin horarios de inicio'
+PAPI:
+  Tournament:
+    default: '{name}&f - {fish} - {time}'
+    notRunning: No en curso
+    noneCaught: Ninguno atrapado
+    name: '&3{tournament}'
+    time: '&f{time}'
+    fish_type: '&f{fish}'
+    progress: '&f{progress}'
+    winner: '&f{player}'
+    notFound: Torneo no encontrado
+    rank: '&f{player}'
+  Fish:
+    notFound: Pez no encontrado
+    player: '&f{player}'
+    name: '&f{type}'
+    size: '&f{size}'
+    cost: '&f{cost}'
+    rarity: '&f{rarity}'
+    date: '&f{date}'
+    score: '&f{score}'
+    default: '&f{player} | &f{rarity} | &f{type} | &f{size}'
+Author: Becerritoo
+Language: es_MX
+Messages:
+  Errors:
+    bagInvalidCraft: '&cNo puedes usar tu bolsa para eso.'
+    bagSellSneakRequired: '&cDebes estar agachado para vender desde la Fish Bag.'
+    bagNotInMainHand: '&cNo tienes la bolsa en la mano principal.'
+    noValidConversation: '&cNo se encontro una conversacion valida.'
+    playerOnlyConversationFactory: '&cEsta conversacion es solo para jugadores.'
+    playerOnlyPanel: '&cLos paneles UI solo pueden abrirse por jugadores.'
+Admin:
+  Spawn:
+    noName: '&cDebes indicar un nombre.'
+    validEquipment: '&cEquipo valido: bag, journal, rod, horn.'
+    validTreasure: '&cTesoro valido: casket, compass_piece, compass.'
+    invalidTreasureType: '&cTipo de tesoro invalido.'
+Literals:
+  has_compass_piece: Tiene fragmento de brújula
+  has_compass: 'Tiene brújula: '
+  hint: 'Pista: '
+  biomes: '- Biomas -'
+  left_click_to_edit: Clic izquierdo para editar
+  really_delete: ¿Eliminar de verdad?
+  create_new_area: Crear nueva zona
+  prefix: 'Prefijo: '
+  value_mod: Mod. de valor
+  create_new_rarity: Crear nueva rareza
+  rarity_id: ID de rareza
+  tournament_admin_panel: Panel admin de torneos
+  times_of: 'Horarios de '
+  edit: 'Editar '
+  announce_catch: Anunciar captura
+  biomes_2: ' Biomas'
+  areas_admin_panel: Panel admin de zonas
+  length_min: Longitud mínima
+  requires_rain: Requiere lluvia
+  height_min: Altura mínima
+  rarity_admin_panel: Panel admin de rarezas
+  fish_admin_panel: Panel admin de peces
+  create_new_fish: Crear nuevo pez
+  base_price: Precio base
+  height_max: Altura máxima
+  length_max: Longitud máxima
+  model_data: Datos del modelo
+  no_lore_set: Sin lore asignado
+  id: 'ID: '
+  model_data_2: 'Datos del modelo: '
+  tournament_bossbar: BossBar de torneo
+  shows_a_bossbar_at_the_top_of_the_screen: Muestra una BossBar en la parte superior
+    de la pantalla
+  players_can_toggle_in_their_tournament_panel: Los jugadores pueden activarla en
+    su panel de torneo
+  create_placement: Crear posición
+  fish_types: Tipos de pez
+  cash_rewards: ' Recompensas en dinero'
+  current: 'Actual: '
+  tournament_id: ID del torneo
+  villager_horn_trade: Intercambio de cuerno con aldeano
+  if_enabled_fishermen_villagers_sell_tournament_horns: Si está activado, los aldeanos
+    pescadores venden Cuernos de Torneo
+  when_used_these_start_a_fishing_tournament: Al usarse, estos inician un torneo
+    de pesca
+  left_click_to: 'Clic izquierdo para '
+  n_a: n/a
+  no_rewards_set: Sin recompensas asignadas
+  areas: 'Zonas: '
+  required_villager_horn_level: Nivel requerido de aldeano para cuerno
+  the_profession_level_a_villager_needs: Nivel de profesión que necesita el aldeano
+  to_sell_a_horn_for_this_tournament: para vender un Cuerno para este torneo
+  click_to_toggle_all_fish_from_this_area: Haz clic para activar o desactivar todos
+    los peces de esta zona.
+  start_times: Horarios de inicio
+  left_click: 'Clic izquierdo  '
+  to_create: Para crear
+  to_edit: Para editar
+  right_click: 'Clic derecho '
+  to_delete: Para eliminar
+  create_new_tournament: Crear nuevo torneo
+  save_rewards: Guardar recompensas
+  saves_all_item_in_this_inventory_as_rewards: Guarda todos los objetos de este inventario
+    como recompensas
+  null_casket_name: Nombre de cofre nulo
+  drop_chance: Probabilidad de drop
+  place_reward_item_in_free_slot: Coloca un objeto de recompensa en un slot libre
+  player_panel: Panel del jugador
+  drop_chance_2: 'Probabilidad de drop: '
+  announce: 'Anunciar: '
+  casket_id: ID del cofre
+  what_should_the_area_name_be_current: '¿Cuál debe ser el nombre del área? Actual: '
+  what_should_the_area_id_be_current: '¿Cuál debe ser el ID del área? Actual: '
+  what_should_the_compass_hint_be_current: '¿Cuál debe ser la pista de la brújula?
+    Actual: '
+  what_should_the_new_fishing_area_be_named: ¿Cómo debe llamarse la nueva zona de
+    pesca?
+  what_should_the_rarity_name_be_current: '¿Cuál debe ser el nombre de la rareza?
+    Actual: '
+  what_should_the_rarity_weight_be_current: '¿Cuál debe ser el peso de la rareza?
+    Actual: '
+  what_should_the_value_mod_be_current: '¿Cuál debe ser el modificador de valor?
+    Actual: '
+  what_should_the_rarity_id_be_current: '¿Cuál debe ser el ID de la rareza? Actual: '
+  what_should_the_rarity_prefix_be_current: '¿Cuál debe ser el prefijo de la rareza?
+    Actual: '
+  what_should_the_new_rarity_be_named: ¿Cómo debe llamarse la nueva rareza?
+  what_should_the_fish_name_be_current: '¿Cuál debe ser el nombre del pez? Actual: '
+  what_should_the_fish_id_be_current: '¿Cuál debe ser el ID del pez? Actual: '
+  what_should_the_minimum_length_of_a: '¿Cuál debe ser la longitud mínima de '
+  what_should_the_minimum_height_of_a: '¿Cuál debe ser la altura mínima de '
+  what_should_the_maximum_length_of_a: '¿Cuál debe ser la longitud máxima de '
+  what_should_the_maximum_height_of_a: '¿Cuál debe ser la altura máxima de '
+  what_should_the_model_data_of_a: '¿Cuál debe ser el model data de '
+  what_should_the_fish_lore_be_current: '¿Cuál debe ser el lore del pez? Actual: '
+  what_should_the_baseline_price_of_a: '¿Cuál debe ser el precio base de '
+  what_should_the_new_fish_be_named: ¿Cómo debe llamarse el nuevo pez?
+  what_should_the_tournament_name_be_current: '¿Cuál debe ser el nombre del torneo?
+    Actual: '
+  what_should_the_tournament_id_be_current: '¿Cuál debe ser el ID del torneo? Actual: '
+  how_long_should_the: '¿Cuánto debe durar '
+  tournament_last_in_hours_current: ' el torneo, en horas? Actual: '
+  what_level: '¿Qué nivel de '
+  profession_does_a_fisherman_villager_need_to_be_to_sell_a_horn_for: 'profesión necesita
+    un aldeano pescador para vender un cuerno para '
+  what_should_the_reward_for: '¿Cuál debe ser la recompensa para #'
+  in_the_tournament_be_current: ' en el torneo? Actual: '
+  what_should_the_new_time_be: ¿Cuál debe ser el nuevo horario?
+  format: 'Formato: '
+  what_should_the_new_tournament_be_named: ¿Cómo debe llamarse el nuevo torneo?
+  what_should_the_casket_id_be_current: '¿Cuál debe ser el ID del cofre? Actual: '
+  what_should_the_new_casket_be_named: ¿Cómo debe llamarse el nuevo cofre?
+  no_valid_conversation_found: No se encontró una conversación válida
+  ui_panels_can_only_be_opened_by_players: Los paneles UI solo pueden abrirse por
+    jugadores
+  this_conversation_factory_is_player_only: Esta factoría de conversaciones es solo
+    para jugadores
+  click_to_cancel_conversation: Haz clic para cancelar la conversación
+  you_cannot_use_your_bag_for_that: No puedes usar tu bolsa para eso.
+  you_must_be_sneaking_to_sell_from_fish_bag: Debes estar agachado para vender desde
+    la Fish Bag
+  bag_not_held_in_hand: Bolsa no sostenida en la mano
+Text:
+  Fish:
+    tuna:
+      Name: Atún
+      Lore: Hmm... ¡Sabe a pollo!
+    bluegill:
+      Name: Mojarra azul
+      Lore: ¿Me dice Pulmón Rosa?
+      Description: Azul como las aguas
+    catfish:
+      Name: Bagre
+      Lore: Prefiero un pez perro
+    tambaqui:
+      Name: Tambaqui
+      Lore: Una bocanada de aire fresco
+    lungfish:
+      Name: Pez pulmonado
+      Lore: No da la talla
+    anglerfish:
+      Name: Pez pescador
+      Lore: ¡Déjate llevar por el brillo!
+    rainbow_trout:
+      Name: Trucha arcoíris
+      Lore: Compartir es querer
+    boulti:
+      Name: Boulti
+      Lore: Boulti diferente
+    herring:
+      Name: Arenque
+      Lore: Ahora a buscar uno rojo...
+    gar:
+      Name: Gar
+      Lore: Saldría una gran Gar-B-Q
+    perch:
+      Name: Perca
+      Lore: Perca-so, ¿me dejarías ir?
+    muskellunge:
+      Name: Muskelunge
+      Lore: No les hagas caso, creo que eres pez-genial.
+    red_grouper:
+      Name: Mero rojo
+      Lore: Estoy verde de envidia
+    knifefish:
+      Name: Pez cuchillo
+      Lore: ¡Se ve afilado!
+    arapaima:
+      Name: Arapaima
+      Lore: Grande y al mando
+    bayad:
+      Name: Bayad
+      Lore: ¡Estoy enganchado!
+    pollock:
+      Name: Abadejo
+      Lore: Vaya montón de pollocks
+    carp:
+      Name: Carpa
+      Lore: Esto es un montón de carpas
+    electric_eel:
+      Name: Anguila eléctrica
+      Lore: Un descubrimiento impactante
+    armored_catfish:
+      Name: Bagre acorazado
+      Lore: Vaya atacante resistente
+    red-bellied_piranha:
+      Name: Piraña de vientre rojo
+      Lore: Tiene una linda sonrisa
+    cod:
+      Name: Bacalao
+      Lore: ¿Bacalao, me pasas la sal?
+    halibut:
+      Name: Fletán
+      Lore: ¡Hazlo por el fletán!
+    brown_trout:
+      Name: Trucha marrón
+      Lore: A mí me parece más beige
+      Description: Descripción temporal de trucha marrón
+    pink_salmon:
+      Name: Salmón rosado
+      Lore: Siempre contra la corriente
+    synodontis:
+      Name: Synodontis
+      Lore: Un montón de rumores sospechosos
+    smallmouth_bass:
+      Name: Lobina de boca pequeña
+      Lore: Nunca la guitarra
+    minnow:
+      Name: Pececillo
+      Lore: ¿Puedes dejar a Minnow donde estoy?
+  Rarities:
+    legendary:
+      Name: Legendaria
+    epic:
+      Name: Épica
+    rare:
+      Name: Rara
+    common:
+      Name: Común
+  Areas:
+    cold:
+      Name: Fría
+    dry:
+      Name: Seca
+    end:
+      Name: End
+    jungle:
+      Name: Jungla
+    nether:
+      Name: Nether
+    ocean:
+      Name: Océano
+    temperate:
+      Name: Templada
+  Treasure:
+    Caskets:
+      common:
+        Name: '&aCofre Común'
+      legendary:
+        Name: '&6Cofre Legendario'
+      rare:
+        Name: '&bCofre Raro'
+      epic:
+        Name: '&dCofre Épico'
+  Tournaments:
+    reel_in_the_river:
+      Name: Pesca en el Río
+    rainforest_rods_&_reels:
+      Name: Cañas y Carretes de la Selva
+    cacti_cove_casting_contest:
+      Name: Concurso de Lanzamiento en Cala Cactus
+    surf_&_sea_fishing_fest:
+      Name: Festival de Pesca de Surf y Mar
+    cold_water_cast-off:
+      Name: Desafío de Aguas Frías
+    angler's_choice:
+      Name: Elección del Pescador
+    tiny_trophy_trawl:
+      Name: Arrastre de Trofeos Pequeños
+  Gui:
+    PlayerPanel:
+      Title: '&1Blep Fishing'
