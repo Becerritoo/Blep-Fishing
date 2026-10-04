@@ -106,6 +106,7 @@ System:
   east: Este
   west: Oeste
 Economy:
+  saleFailed: '&cNo se pudo completar la venta. Tus peces no fueron eliminados.'
   soldFish: '&bVendiste &f{fish}&b por &f${value}.'
   soldAllFish: '&bVendiste &f{amount}&b peces por &f${value}.'
   sellBagHint: Haz clic derecho para vender todos los peces de la bolsa.

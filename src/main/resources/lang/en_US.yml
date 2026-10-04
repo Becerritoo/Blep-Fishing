@@ -100,6 +100,7 @@ System:
   east: East
   west: West
 Economy:
+  saleFailed: '&cThe sale could not be completed. Your fish were not removed.'
   soldFish: '&bSold &f{fish}&b for &f$&2{value}&f.'
   soldAllFish: '&bSold &f{amount}&b fish for &f$&2{value}&f.'
   sellBagHint: Sneak Right-Click to sell all fish in bag.

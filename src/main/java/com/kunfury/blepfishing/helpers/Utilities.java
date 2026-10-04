@@ -21,11 +21,23 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class Utilities {
 
     public static boolean DebugMode = false;
+    private static final Map<UUID, PendingFishBagSale> pendingFishBagSales = new HashMap<>();
+
+    private static final class PendingFishBagSale {
+        private final int bagId;
+
+        private PendingFishBagSale(int bagId) {
+            this.bagId = bagId;
+        }
+    }
 
     public static int getFreeSlots(Inventory inventory){
         int freeSlots = 0;
@@ -133,6 +145,7 @@ public class Utilities {
             return;
 
         List<FishObject> fishList = new ArrayList<>();
+        List<ItemStack> fishItems = new ArrayList<>();
 
         for(var i : player.getInventory().getContents()){
             if(!ItemHandler.hasTag(i, ItemHandler.FishIdKey))
@@ -143,8 +156,8 @@ public class Utilities {
                 Severe("Tried to sell invalid fish");
                 continue;
             }
-            i.setAmount(0);
             fishList.add(fish);
+            fishItems.add(i);
 
         }
 
@@ -153,7 +166,10 @@ public class Utilities {
             return;
         }
 
-        SellFishList(player, fishList);
+        if(!SellFishList(player, fishList))
+            return;
+
+        fishItems.forEach(i -> i.setAmount(0));
 
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
@@ -176,11 +192,10 @@ public class Utilities {
             Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("System.noFish"));
             return;
         }
-        sellItem.setAmount(0);
+        if(!DepositFishSale(player, fish.Value))
+            return;
 
-        EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, fish.Value);
-        if(!r.transactionSuccess())
-            Utilities.Severe(r.errorMessage);
+        sellItem.setAmount(0);
 
         player.sendMessage(Formatting.GetMessagePrefix() +
                 Formatting.GetLanguageString("Economy.soldFish")
@@ -190,9 +205,9 @@ public class Utilities {
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
 
-    private static void SellFishList(Player player, List<FishObject> fishList){
+    private static boolean SellFishList(Player player, List<FishObject> fishList){
         if(!BlepFishing.hasEconomy())
-            return;
+            return false;
 
         double totalValue = 0;
 
@@ -200,29 +215,48 @@ public class Utilities {
             totalValue += fish.Value;
 
 
-        EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, totalValue);
-        if(!r.transactionSuccess())
-            Utilities.Severe(r.errorMessage);
+        if(!DepositFishSale(player, totalValue))
+            return false;
 
         player.sendMessage(Formatting.GetFormattedMessage("Economy.soldAllFish")
                         .replace("{amount}", String.valueOf(fishList.size()))
                         .replace("{value}", Formatting.DoubleFormat(totalValue)));
+        return true;
+    }
+
+    private static boolean DepositFishSale(Player player, double amount){
+        try {
+            EconomyResponse response = BlepFishing.getEconomy().depositPlayer(player, amount);
+            if(response.transactionSuccess())
+                return true;
+
+            Severe("Unable to deposit fish sale: " + response.errorMessage);
+        } catch (RuntimeException ex) {
+            Severe("Unable to deposit fish sale: " + ex.getMessage());
+        }
+
+        player.sendMessage(Formatting.GetFormattedMessage("Economy.saleFailed"));
+        return false;
     }
 
     public static void SellFishBag(Player player, FishBag fishBag){
         if(!BlepFishing.hasEconomy())
             return;
 
-        if(!fishBag.ConfirmSell){
-            fishBag.ConfirmSell = true;
+        UUID playerId = player.getUniqueId();
+        PendingFishBagSale pendingSale = pendingFishBagSales.get(playerId);
+        if(pendingSale == null || pendingSale.bagId != fishBag.Id){
+            PendingFishBagSale newPendingSale = new PendingFishBagSale(fishBag.Id);
+            pendingFishBagSales.put(playerId, newPendingSale);
 
             player.sendMessage(Formatting.GetFormattedMessage("Economy.sellBagConfirm"));
 
-            Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
-                fishBag.ConfirmSell = false;
-            } , 300);
+            Bukkit.getScheduler().runTaskLater(BlepFishing.getPlugin(),
+                    () -> pendingFishBagSales.remove(playerId, newPendingSale), 300);
             return;
         }
+
+        pendingFishBagSales.remove(playerId, pendingSale);
 
         var fishList = fishBag.getFish();
         if(fishList.isEmpty()){
@@ -230,11 +264,11 @@ public class Utilities {
             return;
         }
 
-        SellFishList(player, fishList);
+        if(!SellFishList(player, fishList))
+            return;
 
         fishList.forEach(f -> f.setFishBagId(null));
         fishBag.RequestUpdate();
         fishBag.UpdateBagItem();
-        fishBag.ConfirmSell = false;
     }
 }
