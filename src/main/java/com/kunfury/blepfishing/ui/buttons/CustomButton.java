@@ -41,16 +41,8 @@ public class CustomButton extends MenuButton {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            if (name != null) meta.setDisplayName(Formatting.formatColor(name));
-
-            List<String> formattedLore = new ArrayList<>();
-            if(lore != null){
-                for (String line : lore) {
-                    formattedLore.add(Formatting.formatColor(line));
-                }
-            }
-
-            meta.setLore(formattedLore);
+            if (name != null) meta.setDisplayName(Formatting.ResolveConfigText(name));
+            meta.setLore(Formatting.ResolveConfigLore(lore));
 
             if (customModelData != 0) {
                 meta.setCustomModelData(customModelData);
