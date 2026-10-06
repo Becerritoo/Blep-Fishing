@@ -2,7 +2,7 @@ name: BlepFishing
 version: '${project.version}'
 author: Kunfury
 main: com.kunfury.blepfishing.BlepFishing
-softdepend: [Vault, mcMMO, PlaceholderAPI, WorldGuard, WorldEdit]
+softdepend: [Vault, mcMMO, PlaceholderAPI, WorldGuard, WorldEdit, EconomyShopGUI, EconomyShopGUI-Premium]
 api-version: '1.21'
 prefix: BF
 commands:

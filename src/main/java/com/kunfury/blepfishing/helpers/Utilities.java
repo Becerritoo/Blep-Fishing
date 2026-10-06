@@ -205,6 +205,32 @@ public class Utilities {
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
 
+    public static boolean SellFishItems(Player player, List<ItemStack> fishItems){
+        if(!BlepFishing.hasEconomy())
+            return false;
+
+        List<FishObject> fishList = new ArrayList<>();
+        List<ItemStack> validFishItems = new ArrayList<>();
+
+        for(ItemStack fishItem : fishItems){
+            FishObject fish = FishObject.GetFromItem(fishItem);
+            if(fish == null){
+                Severe("Tried to sell invalid fish");
+                continue;
+            }
+
+            fishList.add(fish);
+            validFishItems.add(fishItem);
+        }
+
+        if(fishList.isEmpty() || !SellFishList(player, fishList))
+            return false;
+
+        validFishItems.forEach(item -> item.setAmount(0));
+        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
+        return true;
+    }
+
     private static boolean SellFishList(Player player, List<FishObject> fishList){
         if(!BlepFishing.hasEconomy())
             return false;
