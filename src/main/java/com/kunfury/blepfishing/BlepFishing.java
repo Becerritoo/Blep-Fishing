@@ -119,6 +119,7 @@ public final class BlepFishing extends JavaPlugin {
         pm.registerEvents(new PlayerJoinListener(), plugin);
         pm.registerEvents(new CraftItemListener(), plugin);
         pm.registerEvents(new InventoryEventListener(), plugin);
+        pm.registerEvents(new EconomyShopGuiListener(), plugin);
     }
 
 
