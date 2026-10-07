@@ -22,8 +22,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class Utilities {
@@ -206,11 +209,18 @@ public class Utilities {
     }
 
     public static boolean SellFishItems(Player player, List<ItemStack> fishItems){
+        return SellFishItems(player, fishItems, List.of());
+    }
+
+    public static boolean SellFishItems(Player player, List<ItemStack> fishItems, List<ItemStack> fishBagItems){
         if(!BlepFishing.hasEconomy())
             return false;
 
         List<FishObject> fishList = new ArrayList<>();
         List<ItemStack> validFishItems = new ArrayList<>();
+        Map<Integer, FishBag> fishBags = new LinkedHashMap<>();
+        Map<Integer, List<ItemStack>> validFishBagItems = new LinkedHashMap<>();
+        Set<Integer> fishIds = new HashSet<>();
 
         for(ItemStack fishItem : fishItems){
             FishObject fish = FishObject.GetFromItem(fishItem);
@@ -219,14 +229,37 @@ public class Utilities {
                 continue;
             }
 
-            fishList.add(fish);
             validFishItems.add(fishItem);
+            if(fishIds.add(fish.Id))
+                fishList.add(fish);
+        }
+
+        for(ItemStack fishBagItem : fishBagItems){
+            FishBag fishBag = FishBag.GetBag(fishBagItem);
+            if(fishBag == null){
+                Severe("Tried to sell invalid fish bag");
+                continue;
+            }
+
+            validFishBagItems.computeIfAbsent(fishBag.Id, id -> new ArrayList<>()).add(fishBagItem);
+            if(fishBags.putIfAbsent(fishBag.Id, fishBag) != null)
+                continue;
+
+            for(FishObject fish : fishBag.getFish()){
+                if(fishIds.add(fish.Id))
+                    fishList.add(fish);
+            }
         }
 
         if(fishList.isEmpty() || !SellFishList(player, fishList))
             return false;
 
         validFishItems.forEach(item -> item.setAmount(0));
+        fishBags.forEach((bagId, fishBag) -> {
+            fishBag.getFish().forEach(fish -> fish.setFishBagId(null));
+            fishBag.RequestUpdate();
+            validFishBagItems.get(bagId).forEach(fishBag::UpdateBagItem);
+        });
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
         return true;
     }
