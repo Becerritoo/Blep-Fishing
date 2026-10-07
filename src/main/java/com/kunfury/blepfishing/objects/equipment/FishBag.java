@@ -58,10 +58,16 @@ public class FishBag {
 
 
     public void UpdateBagItem(){
+        UpdateBagItem(bagItem);
+    }
+
+    public void UpdateBagItem(ItemStack bagItem){
         if(bagItem == null){
             Utilities.Severe("Tried to update null bag item");
             return;
         }
+
+        this.bagItem = bagItem;
 
         //Bukkit.broadcastMessage("Updating Bag Item");
 

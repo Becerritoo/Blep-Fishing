@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.plugins;
 
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
+import com.kunfury.blepfishing.objects.equipment.FishBag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,12 +29,26 @@ public class EconomyShopGui implements Listener {
             return;
 
         List<ItemStack> fishItems = new ArrayList<>();
-        for(ItemStack item : inventory.getContents()){
-            if(ItemHandler.hasTag(item, ItemHandler.FishIdKey))
+        List<ItemStack> fishBagItems = new ArrayList<>();
+        for(int slot = 0; slot < inventory.getSize(); slot++){
+            ItemStack item = inventory.getItem(slot);
+            if(ItemHandler.hasTag(item, ItemHandler.FishIdKey)){
                 fishItems.add(item);
+                continue;
+            }
+
+            if(FishBag.IsBag(item)){
+                fishBagItems.add(item);
+                inventory.clear(slot);
+            }
         }
 
-        if(!fishItems.isEmpty())
-            Utilities.SellFishItems(player, fishItems);
+        try{
+            if(!fishItems.isEmpty() || !fishBagItems.isEmpty())
+                Utilities.SellFishItems(player, fishItems, fishBagItems);
+        }finally{
+            fishBagItems.forEach(item -> player.getInventory().addItem(item).values()
+                    .forEach(leftover -> player.getWorld().dropItem(player.getLocation(), leftover)));
+        }
     }
 }
