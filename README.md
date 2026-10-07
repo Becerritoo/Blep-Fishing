@@ -28,6 +28,14 @@
 ## About
 Works to completely overhaul the default fishing in minecraft by adding multiplayer Fishing Tournaments, a Treasure System, Fishing Gear and Equipment, and Statistics and Analytics of your Server
 
+## Versioning
+This project follows [Semantic Versioning](https://semver.org/):
+- `MAJOR` for incompatible changes.
+- `MINOR` for backward-compatible features.
+- `PATCH` for backward-compatible fixes.
+
+Release tags use `vMAJOR.MINOR.PATCH`, and the plugin metadata and release JAR use the same version.
+
 ## Localization
 - Compatible with Paper `1.21.4+` (`api-version: 1.21`).
 - Global language is configured in `plugins/BlepFishing/config.yml`:
