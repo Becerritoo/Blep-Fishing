@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.listeners;
+package com.kunfury.blepfishing.plugins;
 
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EconomyShopGuiListener implements Listener {
+public class EconomyShopGui implements Listener {
     private static final String SELL_GUI_HOLDER = "me.gypopo.economyshopgui.objects.SellGUI";
 
     @EventHandler(priority = EventPriority.LOWEST)

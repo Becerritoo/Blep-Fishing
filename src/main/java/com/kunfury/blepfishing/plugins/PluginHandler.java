@@ -13,6 +13,7 @@ public class PluginHandler {
     public void Initialize(){
         SetupMcMMO();
         SetupPlaceholderApi();
+        SetupEconomyShopGui();
     }
 
     private void SetupPlaceholderApi(){
@@ -29,6 +30,16 @@ public class PluginHandler {
         }else{
             //Setup.HandlerList.unregisterAll
             //This enables base listener if McMMO is not installed
+        }
+    }
+
+    private void SetupEconomyShopGui(){
+        Plugin economyShopGui = Bukkit.getPluginManager().getPlugin("EconomyShopGUI");
+        Plugin economyShopGuiPremium = Bukkit.getPluginManager().getPlugin("EconomyShopGUI-Premium");
+        if((economyShopGui != null && economyShopGui.isEnabled())
+                || (economyShopGuiPremium != null && economyShopGuiPremium.isEnabled())){
+            BlepFishing.instance.getServer().getPluginManager()
+                    .registerEvents(new EconomyShopGui(), BlepFishing.instance);
         }
     }
 
