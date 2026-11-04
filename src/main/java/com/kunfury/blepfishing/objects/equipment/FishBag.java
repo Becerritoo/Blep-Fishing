@@ -119,7 +119,7 @@ public class FishBag {
 
 
         for(var item : player.getInventory().getStorageContents()){
-            if(getAmount() + fillAmt >= getMax()) break;
+            if(isFull()) break;
             if(item != null && item.getType() == ItemHandler.FishMat && ItemHandler.hasTag(item, ItemHandler.FishIdKey)){
                 if(Deposit(item, player))
                     fillAmt++;
@@ -346,8 +346,11 @@ public class FishBag {
             return null;
 
         int bagId = ItemHandler.getTagInt(bagItem, ItemHandler.FishBagId);
-        if(FishBags.containsKey(bagId))
-            return FishBags.get(bagId);
+        if(FishBags.containsKey(bagId)){
+            var bag = FishBags.get(bagId);
+            bag.bagItem = bagItem;
+            return bag;
+        }
 
         if(!Database.FishBags.Exists(bagId))
             return null;
