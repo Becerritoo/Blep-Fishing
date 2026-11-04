@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1] - 2026-11-04
+
+### Fixed
+
+- Keep fish bag lore synchronized after the bag item moves or is recreated.
+- Prevent bulk inventory deposits from counting newly added fish twice when checking bag capacity.
+
 ## [2.7.0] - 2026-10-11
 
 ### Added
