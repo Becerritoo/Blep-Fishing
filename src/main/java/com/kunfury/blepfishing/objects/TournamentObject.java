@@ -173,17 +173,8 @@ public class TournamentObject {
         //Bukkit.broadcastMessage("Checking Winning Fish");
 
         for(var fish : Database.Tournaments.GetWinningFish(this)){
-            int maxPlace = winningFish.size() + 1;
-
-            //Bukkit.broadcastMessage("Checking winning fish for position " + maxPlace);
-
-            //Ensures that a reward exists, either item or currency
-            if(!type.ItemRewards.containsKey(maxPlace) && !type.CashRewards.containsKey(maxPlace))
-                break;
-
             //Ignores any fish that were caught by someone already winning
             if(winningFish.stream().anyMatch(f -> f.PlayerId.equals(fish.PlayerId))){
-                //Bukkit.broadcastMessage("Duplicate Player Found For " + maxPlace);
                 continue;
             }
 
