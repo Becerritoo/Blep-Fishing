@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.2] - 2026-11-08
+
+### Fixed
+
+- Invalidate the active-tournament cache safely when tournaments are created or restored.
+- Recover scheduled tournaments after server downtime while preventing duplicate or canceled runs.
+- Build tournament rankings independently from configured rewards.
+- Load and save tournament grading modes, with Tiny Trophy Trawl defaulting to shortest fish.
+
 ## [2.7.1] - 2026-11-04
 
 ### Fixed
