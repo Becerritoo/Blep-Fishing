@@ -17,6 +17,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static com.kunfury.blepfishing.objects.TournamentType.GradingType.LONGEST;
@@ -79,11 +81,60 @@ public class TournamentType {
         Start();
     }
 
+    public void TryStart(LocalDateTime currentTime){
+        if(IsRunning())
+            return;
+
+        LocalDateTime scheduledStart = getCurrentScheduledStart(currentTime);
+        if(scheduledStart == null || Database.Tournaments.HasStarted(Id, scheduledStart))
+            return;
+
+        Start(scheduledStart);
+    }
+
+    private LocalDateTime getCurrentScheduledStart(LocalDateTime currentTime){
+        if(Duration <= 0)
+            return null;
+
+        LocalDateTime latestStart = null;
+        int daysToCheck = (int) Math.ceil(Duration / 24.0);
+
+        for(int dayOffset = 0; dayOffset <= daysToCheck; dayOffset++){
+            var date = currentTime.toLocalDate().minusDays(dayOffset);
+            TournamentDay day = TournamentDay.valueOf(date.getDayOfWeek().toString());
+
+            List<String> scheduledTimes = new ArrayList<>();
+            scheduledTimes.addAll(StartTimes.getOrDefault(day, Collections.emptyList()));
+            scheduledTimes.addAll(StartTimes.getOrDefault(TournamentDay.EVERYDAY, Collections.emptyList()));
+
+            for(String configuredTime : scheduledTimes){
+                try{
+                    LocalDateTime candidate = LocalDateTime.of(date, LocalTime.parse(configuredTime));
+                    long durationSeconds = (long) (Duration * 60 * 60);
+
+                    if(candidate.isAfter(currentTime) || !currentTime.isBefore(candidate.plusSeconds(durationSeconds)))
+                        continue;
+
+                    if(latestStart == null || candidate.isAfter(latestStart))
+                        latestStart = candidate;
+                }catch(DateTimeParseException e){
+                    Utilities.Severe("Invalid start time for tournament " + Id + ": " + configuredTime);
+                }
+            }
+        }
+
+        return latestStart;
+    }
+
     public TournamentObject Start(){
+        return Start(LocalDateTime.now());
+    }
+
+    public TournamentObject Start(LocalDateTime startTime){
         if(IsRunning()){
             return null;
         }
-        var tournament = new TournamentObject(this);
+        var tournament = new TournamentObject(this, startTime);
 
         Utilities.Announce(Formatting.GetFormattedMessage("Tournament.start")
                 .replace("{tournament}", Name));
@@ -302,16 +353,8 @@ public class TournamentType {
 
     public static void CheckCanStart(){
         LocalDateTime dateTime = LocalDateTime.now();
-
-        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
-
-
-        String timeStr = Formatting.asTime(dateTime);
-
-        //Bukkit.getLogger().warning(dayOfWeek + " - " + timeStr);
-        //Bukkit.broadcastMessage(dayOfWeek + " - " + timeStr);
         for(var t : GetTournaments()){
-            t.TryStart(dayOfWeek, timeStr);
+            t.TryStart(dateTime);
         }
     }
 
@@ -340,5 +383,4 @@ public class TournamentType {
     }
 
 }
-
 

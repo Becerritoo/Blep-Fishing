@@ -33,8 +33,12 @@ public class TournamentObject {
 
 
     public TournamentObject(TournamentType type){
+        this(type, LocalDateTime.now());
+    }
+
+    public TournamentObject(TournamentType type, LocalDateTime startTime){
         TypeId = type.Id;
-        StartTime = LocalDateTime.now();
+        StartTime = startTime;
         active = true;
         Id = Database.Tournaments.Add(this);
         StartTimer(this);

@@ -60,8 +60,8 @@ public class Utilities {
                 @Override
                 public void run() {
                     if(ConfigHandler.instance.tourneyConfig.Enabled()){
-                        TournamentType.CheckCanStart();
                         TournamentObject.CheckActive();
+                        TournamentType.CheckCanStart();
                     }
                 }
 

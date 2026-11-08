@@ -121,6 +121,23 @@ public class TournamentTable extends DbTable<TournamentObject> {
         }
     }
 
+    public boolean HasStarted(String typeId, LocalDateTime scheduledStart){
+        LocalDateTime minuteStart = scheduledStart.withSecond(0).withNano(0);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT 1 FROM " + tableName + " WHERE typeId = ? AND startTime >= ? AND startTime < ? LIMIT 1");
+            preparedStatement.setString(1, typeId);
+            preparedStatement.setLong(2, Utilities.TimeToLong(minuteStart));
+            preparedStatement.setLong(3, Utilities.TimeToLong(minuteStart.plusMinutes(1)));
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     List<TournamentObject> ActiveTournaments = null;
     public List<TournamentObject> GetActive(){
 
