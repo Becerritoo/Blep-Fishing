@@ -13,6 +13,7 @@ reel_in_the_river:
     - smallmouth_bass
     - minnow
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY: []
@@ -33,6 +34,7 @@ rainforest_rods_&_reels:
     - armored_catfish
     - red-bellied_piranha
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY: []
@@ -52,6 +54,7 @@ cacti_cove_casting_contest:
     - bayad
     - synodontis
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY: []
@@ -77,6 +80,7 @@ surf_&_sea_fishing_fest:
     - anglerfish
     - red_grouper
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY: []
@@ -106,6 +110,7 @@ cold_water_cast-off:
     - halibut
     - pink_salmon
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY:
@@ -149,6 +154,7 @@ angler's_choice:
     - smallmouth_bass
     - tuna
   Duration: 24.0
+  Grading: LONGEST
   Villager Horn: false
   Start Times:
     MONDAY: []
@@ -192,6 +198,7 @@ tiny_trophy_trawl:
     - synodontis
     - tuna
   Duration: 24.0
+  Grading: SHORTEST
   Villager Horn: false
   Start Times:
     MONDAY: []

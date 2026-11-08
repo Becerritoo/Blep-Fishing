@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class TournamentConfig {
 
@@ -96,6 +97,13 @@ public class TournamentConfig {
             TournamentType tournamentType = new TournamentType(
                     key, name, duration, fishTypes, startTimes, cashRewards,
                     itemRewards, villagerHorn, hornLevel, bossBar);
+            String gradingName = config.getString(key + ".Grading", TournamentType.GradingType.LONGEST.name());
+            try{
+                tournamentType.Grading = TournamentType.GradingType.valueOf(gradingName.toUpperCase(Locale.ROOT));
+            }catch(IllegalArgumentException e){
+                Utilities.Severe("Invalid grading type for tournament " + key + ": " + gradingName);
+                tournamentType.Grading = TournamentType.GradingType.LONGEST;
+            }
             TournamentType.AddNew(tournamentType);
         }
     }
@@ -111,6 +119,7 @@ public class TournamentConfig {
             newTourneyConfig.set(key + ".Name", type.Name);
             newTourneyConfig.set(key + ".Fish Types", type.FishTypeIds);
             newTourneyConfig.set(key + ".Duration", type.Duration);
+            newTourneyConfig.set(key + ".Grading", type.Grading.name());
             newTourneyConfig.set(key + ".Villager Horn", type.VillagerHorn);
             if(type.VillagerHorn)
                 newTourneyConfig.set(key + ".Villager Horn Level", type.HornLevel);
