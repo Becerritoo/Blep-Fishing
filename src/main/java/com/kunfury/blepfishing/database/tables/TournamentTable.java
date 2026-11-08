@@ -43,8 +43,7 @@ public class TournamentTable extends DbTable<TournamentObject> {
             var id = connection.prepareStatement("SELECT * FROM tournaments ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
             Cache.put(id, tourney);
 
-            if(!ActiveTournaments.isEmpty())
-                ActiveTournaments = null;
+            ActiveTournaments = null;
 
             return id;
 
@@ -75,7 +74,7 @@ public class TournamentTable extends DbTable<TournamentObject> {
             var tournament = new TournamentObject(resultSet);
 
             if(tournament.Active())
-                ActiveTournaments.clear();
+                ActiveTournaments = null;
 
             return tournament;
 
